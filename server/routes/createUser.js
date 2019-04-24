@@ -23,9 +23,10 @@ router.post('/', function (req, res) {
         } else{
             user.password = hash;
             user.save().then(res_user => {
+                res_user.password = req.body.password;
                 res.status(201).send({
                     message: 'OK',
-                    data: res_user._id
+                    data: res_user
                 });
             }).catch(err => {
                 res.status(404).send({

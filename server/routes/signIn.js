@@ -12,7 +12,6 @@ router.post('/', function (req, res) {
         })
         return;
     }
-    console.log(req)
     users.findOne({email: req.body.email}).exec().then(function (item) {
         console.log(item)
         if (item === null) {
@@ -23,10 +22,12 @@ router.post('/', function (req, res) {
         } else {
             bcrypt.compare(req.body.password, item.password, function (err, result) {
                 if(err){
-
+                    res.status(500).json({
+                        message: 'Password Error', data: null
+                    })
                 }else{
-                    console.log(result)
                     if(result === true){
+                        item.password = req.body.password;
                         res.status(200).json({
                             message: "OK",
                             data: item,
