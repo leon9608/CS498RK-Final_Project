@@ -79,7 +79,7 @@ class PostResearch extends Component {
 
                           <div className="form-group">
                             <label htmlFor="type">Type</label>
-                            <select className="selectpicker border rounded" id="type" data-style="btn-black" data-width="100%" data-live-search="true" title="Select Job Type">
+                            <select className="form-control border rounded" id="type" data-style="btn-black" data-width="100%" data-live-search="true" title="Select Job Type">
                               <option>Grader/Class Assistant</option>
                               <option>User Study</option>
                               <option>Research Assistant</option>
