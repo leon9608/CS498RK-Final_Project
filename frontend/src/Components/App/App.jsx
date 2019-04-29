@@ -3,12 +3,13 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 
 
-// import logo from './logo.svg';
-// import './App.css';
-
-
 import Home from '../Home/Home.jsx';
-import LoginPage from '../Login/login.jsx';
+import Login from '../Login/login.jsx';
+import Register from '../Login/register.jsx';
+import About from '../Home/About.jsx';
+import ResearchListing from "../Research/ResearchListing.jsx";
+import ResearchDetail from "../Research/ResearchDetail.jsx";
+import PostResearch from "../Research/PostResearch.jsx";
 
 class App extends Component {
   render() {
@@ -16,11 +17,12 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Home}/>
-          {/*
-            Add routes for new pages here!
-            Here's an example. To view this route, just go to http://localhost:3000/example
-          */}
-          <Route exact path="/login" component={LoginPage}/>
+          <Route exact path="/about" component={About}/>
+          <Route exact path="/login" component={Login}/>
+          <Route exact path="/register" component={Register}/>
+          <Route exact path="/research-listing" component={ResearchListing}/>
+          <Route exact path="/research-detail" component={ResearchDetail}/>
+          <Route exact path="/create-research" component={PostResearch}/>
 
         </Switch>
       </Router>
