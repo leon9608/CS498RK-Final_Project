@@ -91,7 +91,7 @@ class About extends Component {
                           <img src="http://illinoismarathon.com/wp-content/uploads/alma-mater-600x338.jpg" className="img-fluid img-shadow"/>
                     </div>
                     <div className="col-lg-5 ml-auto">
-                      <h2 className="section-title mb-3">ResearchBoard For Undergrade Students</h2>
+                      <h2 className="section-title mb-3">ResearchBoard For Undergraduate Students</h2>
                       <p className="lead">Solving the students’ pain point of having scattered and incomplete information about on-campus research/intern related information/opportunities.</p>
                       <p>This platform will provide users a centralized and most up-to-date information.</p>
                     </div>
