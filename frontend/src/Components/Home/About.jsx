@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../Segments/Footer.jsx';
+import axios from 'axios';
 
-//TODO: 1. change stats to dynamically display data from database
-// 2. Change the description for our team
 class About extends Component {
+    constructor(){
+        super();
+        this.state = {
+            postCount:0
+        }
+    }
+
+    componentDidMount(){
+        const postListApi = 'http://localhost:4000/api/posts';
+        axios.get(postListApi).then(
+            res => {
+                this.setState({postCount: res.data.data.length});
+            }
+        )
+    }
   render() {
+      const {userCount, postCount} = this.state;
       return (
           <div className="site-wrap">
               <div className="site-mobile-menu site-navbar-target">
@@ -65,17 +80,9 @@ class About extends Component {
                     </div>
                   </div>
                   <div className="row pb-0 block__19738 section-counter justify-content-center">
-
                     <div className="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
                       <div className="d-flex align-items-center justify-content-center mb-2">
-                        <strong className="number" data-number="1930">1930</strong>
-                      </div>
-                      <span className="caption">Students</span>
-                    </div>
-
-                    <div className="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-                      <div className="d-flex align-items-center justify-content-center mb-2">
-                        <strong className="number" data-number="54">54</strong>
+                        <strong className="number" data-number={postCount}>{postCount}</strong>
                       </div>
                       <span className="caption">Researchs Posted</span>
                     </div>
@@ -88,10 +95,10 @@ class About extends Component {
                 <div className="container">
                   <div className="row align-items-center">
                     <div className="col-lg-6 mb-5 mb-lg-0">
-                          <img src="http://illinoismarathon.com/wp-content/uploads/alma-mater-600x338.jpg" className="img-fluid img-shadow"/>
+                          <img src="http://illinoismarathon.com/wp-content/uploads/alma-mater-600x338.jpg" alt="alma mater" className="img-fluid img-shadow"/>
                     </div>
                     <div className="col-lg-5 ml-auto">
-                      <h2 className="section-title mb-3">ResearchBoard For Undergrade Students</h2>
+                      <h2 className="section-title mb-3">ResearchBoard For Undergraduate Students</h2>
                       <p className="lead">Solving the students’ pain point of having scattered and incomplete information about on-campus research/intern related information/opportunities.</p>
                       <p>This platform will provide users a centralized and most up-to-date information.</p>
                     </div>
@@ -103,7 +110,7 @@ class About extends Component {
                 <div className="container">
                   <div className="row align-items-center">
                     <div className="col-lg-6 mb-5 mb-lg-0 order-md-2">
-                        <img src="https://static1.squarespace.com/static/548b59b0e4b0c84e07f40b9d/548b6469e4b0ff83264132a3/56319d1ee4b05cc183adab82/1531275934314/DSC_0008_C.jpg?format=750w" className="img-fluid img-shadow"/>
+                        <img src="https://static1.squarespace.com/static/548b59b0e4b0c84e07f40b9d/548b6469e4b0ff83264132a3/56319d1ee4b05cc183adab82/1531275934314/DSC_0008_C.jpg?format=750w" alt="ECEB" className="img-fluid img-shadow"/>
                     </div>
                     <div className="col-lg-5 mr-auto order-md-1  mb-5 mb-lg-0">
                       <h2 className="section-title mb-3">ResearchBoard For Professors</h2>

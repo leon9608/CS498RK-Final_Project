@@ -4,10 +4,6 @@ import axios from 'axios';
 
 import Footer from '../Segments/Footer.jsx';
 
-
-// TODO: 1. Sever side need to implements get user list to check for unique Email
-// 2. Change a way of alerting wrong password
-// 3. Need to pass the state as login when redirect to home page, display different type of homepage
 class Register extends Component {
     constructor(){
         super();
@@ -16,7 +12,8 @@ class Register extends Component {
             name: "",
             email: "",
             password: "",
-            confirmedPassowrd: ""
+            confirmedPassowrd: "",
+            loggedIn: false
         };
 
         this.onChange = this.onChange.bind(this);
@@ -41,7 +38,8 @@ class Register extends Component {
             axios.post(createApi, {isStudent, name, email, password})
             .then((res) => {
                 if(res.status === 201){
-                    this.props.history.push("/");
+                    this.setState({loggedIn: true});
+                    this.props.history.push("/", this.state.loggedIn);
                 }
             });
         }

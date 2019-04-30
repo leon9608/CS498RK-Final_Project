@@ -5,8 +5,8 @@ import axios from 'axios';
 import Footer from '../Segments/Footer.jsx';
 
 class Home extends Component {
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.state = {
             postList : []
         };
@@ -20,10 +20,22 @@ class Home extends Component {
       )
   }
   render() {
+      // const { loggedIn } = this.state;
+      //
+      // let userButton;
+      // if(loggedIn){
+      //     userButton = <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log Out</button>;
+      // } else {
+      //     userButton = <div className="btn-group" role="group">
+      //         <Link to="/login">
+      //             <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log In</button>
+      //         </Link>
+      //         <Link to="/register">
+      //             <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-person_add"></span>Sign Up</button>
+      //         </Link>
+      //     </div>;
+      // }
     return (
-        //TODO: 1. fix a href
-        // 2. Need to different homepage based on account type and whether sign In or not
-        // 3. Fix responsive menu to have correct link, for all pages
         <div className="site-wrap">
                 <div className="site-mobile-menu site-navbar-target">
                     <div className="site-mobile-menu-header">
@@ -50,14 +62,14 @@ class Home extends Component {
                             <div className="right-cta-menu text-right d-flex aligin-items-center col-6">
                                 <div className="ml-auto">
                                     <Link to="/create-research" className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-add"></span>Post a Job</Link>
-                                    <div className="btn-group" role="group">
-                                        <Link to="/login">
-                                            <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log In</button>
-                                        </Link>
-                                        <Link to="/register">
-                                            <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-person_add"></span>Sign Up</button>
-                                        </Link>
-                                    </div>
+                                        <div className="btn-group" role="group">
+                                            <Link to="/login">
+                                                <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log In</button>
+                                            </Link>
+                                            <Link to="/register">
+                                                <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-person_add"></span>Sign Up</button>
+                                            </Link>
+                                        </div>;
                                 </div>
                                 <Link to="#" className="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span className="icon-menu h3 m-0 p-0 mt-2"></span></Link>
                             </div>

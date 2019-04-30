@@ -5,13 +5,13 @@ import axios from 'axios';
 import Footer from '../Segments/Footer.jsx';
 
 
-//TODO: Need to pass the state as login when redirect to home page, display different type of homepage
 class Login extends Component {
     constructor(){
         super();
         this.state = {
             email : "",
-            password : ""
+            password : "",
+            loggedIn: false
         };
         this.onChange = this.onChange.bind(this);
     }
@@ -28,7 +28,11 @@ class Login extends Component {
         axios.post(signApi, {email, password})
             .then((res) => {
                 if(res.status === 200){
-                    this.props.history.push("/");
+                    this.setState({loggedIn: true});
+                    this.props.history.push({
+                        pathname: '/',
+                        state: {loggedIn: true}
+                    });
                 }
             });
     }
