@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import Footer from '../Segments/Footer.jsx';
+import NavBar from '../Segments/NavBar.jsx';
 
 class Home extends Component {
-    constructor(){
-        super();
-        this.state = {
-            postList : []
+        state = {
+            postList : [],
+            loggedIn: false,
+            userId: "",
+            isStudent: true
         };
-    }
+
   componentDidMount(){
       const postListApi = 'http://localhost:4000/api/posts';
       axios.get(postListApi).then(
@@ -18,23 +20,34 @@ class Home extends Component {
               this.setState({postList: res.data.data});
           }
       )
+      if(typeof this.props.location.state != "undefined"){
+            this.setState({loggedIn: this.props.location.state.loggedIn,
+                userId: this.props.location.state.userId,
+                isStudent: this.props.location.state.isStudent});
+    }
   }
+
   render() {
-      // const { loggedIn } = this.state;
-      //
-      // let userButton;
-      // if(loggedIn){
-      //     userButton = <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log Out</button>;
-      // } else {
-      //     userButton = <div className="btn-group" role="group">
-      //         <Link to="/login">
-      //             <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log In</button>
-      //         </Link>
-      //         <Link to="/register">
-      //             <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-person_add"></span>Sign Up</button>
-      //         </Link>
-      //     </div>;
-      // }
+
+      const { loggedIn, isStudent, userId } = this.state;
+
+      let BottomSignUp;
+      if(!loggedIn){
+          BottomSignUp = <section className="py-5 bg-image overlay-primary fixed overlay">
+            <div className="container">
+              <div className="row align-items-center">
+                <div className="col-md-8">
+                  <h2 className="text-white">Looking For A Research?</h2>
+                  <p className="mb-0 text-white lead">Sign up now and find the right research for you.</p>
+                </div>
+                <div className="col-md-3 ml-auto">
+                  <Link to="/register" className="btn btn-warning btn-block btn-lg">Sign Up</Link>
+                </div>
+              </div>
+            </div>
+        </section>;
+      }
+
     return (
         <div className="site-wrap">
                 <div className="site-mobile-menu site-navbar-target">
@@ -47,35 +60,7 @@ class Home extends Component {
                 </div>
 
                 {/* NAVBAR */}
-                <header className="site-navbar mt-3">
-                    <div className="container-fluid">
-                        <div className="row align-items-center">
-                            <div className="site-logo col-6"><Link to="/">RESEARCHBOARD</Link></div>
-                            <nav className="mx-auto site-navigation">
-                                <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-                                    <li className="nav-link"><Link to="/" className="active">Home</Link></li>
-                                    <li className="nav-link"><Link to="/about">About</Link></li>
-                                    <li className="nav-link"><Link to="/research-listing">Recent Opportunities</Link></li>
-                                </ul>
-                            </nav>
-
-                            <div className="right-cta-menu text-right d-flex aligin-items-center col-6">
-                                <div className="ml-auto">
-                                    <Link to="/create-research" className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-add"></span>Post a Job</Link>
-                                        <div className="btn-group" role="group">
-                                            <Link to="/login">
-                                                <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log In</button>
-                                            </Link>
-                                            <Link to="/register">
-                                                <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-person_add"></span>Sign Up</button>
-                                            </Link>
-                                        </div>;
-                                </div>
-                                <Link to="#" className="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span className="icon-menu h3 m-0 p-0 mt-2"></span></Link>
-                            </div>
-                        </div>
-                    </div>
-                </header>
+                <NavBar loggedIn={loggedIn} isStudent={isStudent} userId={userId} curPage={0}/>
 
                 {/*Home*/}
                 <section className="home-section section-hero overlay bg-image" style={{backgroundImage: "url('https://www.chula.ac.th/wp-content/uploads/2018/03/research-impact-hero-768x480.jpg')"}} id="home-section">
@@ -163,7 +148,7 @@ class Home extends Component {
                     <ul className="job-listings mb-5">
                         {this.state.postList.map((post, idx) =>
                             <li className="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" key={idx}>
-                              <Link to="/research-detail"></Link>
+                              <Link to={{pathname:"/research-detail", state:{loggedIn:loggedIn, userId:userId, isStudent:isStudent}}}></Link>
 
                               <div className="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
                                 <div className="job-listing-position custom-width w-50 mb-3 mb-sm-0">
@@ -202,19 +187,7 @@ class Home extends Component {
                   </div>
                 </section>
 
-                <section className="py-5 bg-image overlay-primary fixed overlay">
-                  <div className="container">
-                    <div className="row align-items-center">
-                      <div className="col-md-8">
-                        <h2 className="text-white">Looking For A Research?</h2>
-                        <p className="mb-0 text-white lead">Sign up now and find the right research for you.</p>
-                      </div>
-                      <div className="col-md-3 ml-auto">
-                        <Link to="/register" className="btn btn-warning btn-block btn-lg">Sign Up</Link>
-                      </div>
-                    </div>
-                  </div>
-                </section>
+                {BottomSignUp}
 
                 <Footer></Footer>
         </div>

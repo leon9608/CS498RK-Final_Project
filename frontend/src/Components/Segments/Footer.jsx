@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 
 class Footer extends Component{
     render() {
+        const loggedIn = this.props.loggedIn;
         return (
             <footer className="site-footer">
-
-              <a href="#top" className="smoothscroll scroll-top">
-                <span className="icon-keyboard_arrow_up"></span>
-              </a>
 
               <div className="container">
                 <div className="row mb-5 justify-content-center text-center">

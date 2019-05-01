@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../Segments/Footer.jsx';
+import NavBar from '../Segments/NavBar.jsx';
 
 class ResearchDetail extends Component {
     render(){
+        let loggedIn = false, userId, isStudent;
+        if(typeof this.props.location.state != "undefined"){
+            loggedIn = this.props.location.state.loggedIn;
+            userId = this.props.location.state.userId;
+            isStudent = this.props.location.state.isStudent;
+        }
         return (
             <div className="site-wrap">
                     <div className="site-mobile-menu site-navbar-target">
@@ -14,35 +21,8 @@ class ResearchDetail extends Component {
                         </div>
                         <div className="site-mobile-menu-body"></div>
                     </div>
-                    <header className="site-navbar mt-3">
-                        <div className="container-fluid">
-                            <div className="row align-items-center">
-                                <div className="site-logo col-6"><Link to="/">RESEARCHBOARD</Link></div>
-                                <nav className="mx-auto site-navigation">
-                                    <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-                                        <li className="nav-link"><Link to="/">Home</Link></li>
-                                        <li className="nav-link"><Link to="/about">About</Link></li>
-                                        <li className="nav-link"><Link to="/research-listing">Recent Opportunities</Link></li>
-                                    </ul>
-                                </nav>
 
-                                <div className="right-cta-menu text-right d-flex aligin-items-center col-6">
-                                    <div className="ml-auto">
-                                        {/*<a href="post-job.html" className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-add"></span>Post a Job</a>*/}
-                                        <div className="btn-group" role="group">
-                                            <Link to="/login">
-                                                <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log In</button>
-                                            </Link>
-                                            <Link to="/register">
-                                                <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-person_add"></span>Sign Up</button>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                    <Link to="#" className="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span className="icon-menu h3 m-0 p-0 mt-2"></span></Link>
-                                </div>
-                            </div>
-                        </div>
-                    </header>
+                    <NavBar loggedIn={loggedIn} isStudent={isStudent} userId={userId} curPage={-1}/>
 
                     <section className="section-hero overlay inner-page bg-image" style={{backgroundImage: "url('https://www.chula.ac.th/wp-content/uploads/2018/03/research-impact-hero-768x480.jpg')"}} id="home-section">
                       <div className="container">
@@ -58,7 +38,7 @@ class ResearchDetail extends Component {
                       <div className="container">
                          <div className="row mb-5">
                              <div className="col-lg-2 mb-4 mb-lg-0">
-                             <Link to="/research-listing" className="btn btn-block btn-primary btn-md"><span className="icon-keyboard_arrow_left mr-2"></span>Back</Link>
+                             <Link to={{pathname:"/research-listing", state:{loggedIn:loggedIn, userId:userId, isStudent:isStudent}}} className="btn btn-block btn-primary btn-md"><span className="icon-keyboard_arrow_left mr-2"></span>Back</Link>
                              </div>
                          </div>
                         <div className="row align-items-center mb-5">
@@ -69,7 +49,7 @@ class ResearchDetail extends Component {
                                 <div>
                                   <span className="ml-0 mr-2 mb-2"><span className="icon-briefcase mr-2"></span>Puma</span>
                                   <span className="m-2"><span className="icon-room mr-2"></span>New York City</span>
-                                  <span className="m-2"><span className="icon-clock-o mr-2"></span><span class="text-primary">Full Time</span></span>
+                                  <span className="m-2"><span className="icon-clock-o mr-2"></span><span className="text-primary">Full Time</span></span>
                                 </div>
                               </div>
                             </div>
@@ -101,7 +81,7 @@ class ResearchDetail extends Component {
                             </div>
 
                             <div className="mb-5">
-                              <h3 className="h5 d-flex align-items-center mb-4 text-primary"><span class="icon-turned_in mr-3"></span>Contact Info</h3>
+                              <h3 className="h5 d-flex align-items-center mb-4 text-primary"><span className="icon-turned_in mr-3"></span>Contact Info</h3>
                               <ul className="list-unstyled m-0 p-0">
                                 <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Necessitatibus quibusdam facilis</span></li>
                                 <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Velit unde aliquam et voluptas reiciendis non sapiente labore</span></li>

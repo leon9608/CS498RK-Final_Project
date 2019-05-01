@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Footer from '../Segments/Footer.jsx';
+import NavBar from '../Segments/NavBar.jsx';
+
 
 class PostResearch extends Component {
     constructor(){
         super();
         this.state = {
-            userId: "5cc7ab68c24f625210928e3a",
+            userId: "",
             jobName: "",
             description: "",
             type:0,
@@ -41,21 +43,38 @@ class PostResearch extends Component {
         this.setState({[e.target.name]:value});
     }
 
+    componentDidMount(){
+        if(typeof this.props.location.state != "undefined"){
+            this.setState({userId:this.props.location.state.userId});
+        }
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
 
+
         const {userId, jobName, description, type, salary, major, standing, term, contactName, contactEmail} = this.state;
         const postAddApi = 'http://localhost:4000/api/posts/add';
+
+        console.log(this.state.userId);
         axios.post(postAddApi, {userId, jobName, description, type, salary, major, standing, term, contactName, contactEmail})
         .then((res)=>{
             if(res.status === 201){
-                this.props.history.push("/research-detail");
+                this.props.history.push({
+                    pathname: "/research-detail",
+                    state: {loggedIn: true}
+                });
             }
         });
     }
 
     render(){
-        const { jobName, description, type, salary, standing, term, contactEmail, contactName } = this.state;
+        let loggedIn = false, isStudent;
+        if(typeof this.props.location.state != "undefined"){
+            loggedIn = this.props.location.state.loggedIn;
+            isStudent = this.props.location.state.isStudent;
+        }
+        const { userId, jobName, description, type, salary, standing, term, contactEmail, contactName } = this.state;
         return (
             <div className="site-wrap">
 
@@ -69,34 +88,7 @@ class PostResearch extends Component {
                 </div>
 
 
-                <header className="site-navbar mt-3">
-                    <div className="container-fluid">
-                        <div className="row align-items-center">
-                            <div className="site-logo col-6"><Link to="/">RESEARCHBOARD</Link></div>
-                            <nav className="mx-auto site-navigation">
-                                <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-                                    <li className="nav-link"><Link to="/">Home</Link></li>
-                                    <li className="nav-link"><Link to="/about">About</Link></li>
-                                    <li className="nav-link"><Link to="/research-listing">Recent Opportunities</Link></li>
-                                </ul>
-                            </nav>
-
-                            <div className="right-cta-menu text-right d-flex aligin-items-center col-6">
-                                <div className="ml-auto">
-                                    <div className="btn-group" role="group">
-                                        <Link to="/login">
-                                            <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log In</button>
-                                        </Link>
-                                        <Link to="/register">
-                                            <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-person_add"></span>Sign Up</button>
-                                        </Link>
-                                    </div>
-                                </div>
-                                <Link to="#" className="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span className="icon-menu h3 m-0 p-0 mt-2"></span></Link>
-                            </div>
-                        </div>
-                    </div>
-                </header>
+                <NavBar loggedIn={loggedIn} isStudent={isStudent} userId={userId} curPage={-1}/>
 
 
                 <section className="section-hero overlay inner-page bg-image" style={{backgroundImage: "url('https://www.chula.ac.th/wp-content/uploads/2018/03/research-impact-hero-768x480.jpg')"}} id="home-section">

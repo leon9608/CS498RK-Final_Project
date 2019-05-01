@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../Segments/Footer.jsx';
+import NavBar from '../Segments/NavBar.jsx';
 import axios from 'axios';
 
 
@@ -21,6 +22,12 @@ class ResearchListing extends Component {
   }
 
   render() {
+      let loggedIn = false, userId, isStudent;
+      if(typeof this.props.location.state != "undefined"){
+          loggedIn = this.props.location.state.loggedIn;
+          userId = this.props.location.state.userId;
+          isStudent = this.props.location.state.isStudent;
+      }
     return (
         <div className="site-wrap">
             <div className="site-mobile-menu site-navbar-target">
@@ -33,35 +40,7 @@ class ResearchListing extends Component {
             </div>
 
             {/* NAVBAR */}
-            <header className="site-navbar mt-3">
-                <div className="container-fluid">
-                    <div className="row align-items-center">
-                        <div className="site-logo col-6"><Link to="/">RESEARCHBOARD</Link></div>
-                        <nav className="mx-auto site-navigation">
-                            <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-                                <li className="nav-link"><Link to="/">Home</Link></li>
-                                <li className="nav-link"><Link to="/about">About</Link></li>
-                                <li className="nav-link"><Link to="/research-listing" className="active">Recent Opportunities</Link></li>
-                            </ul>
-                        </nav>
-
-                        <div className="right-cta-menu text-right d-flex aligin-items-center col-6">
-                            <div className="ml-auto">
-                                {/*<a href="post-job.html" className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-add"></span>Post a Job</a>*/}
-                                <div className="btn-group" role="group">
-                                    <Link to="/login">
-                                        <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log In</button>
-                                    </Link>
-                                    <Link to="/register">
-                                        <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-person_add"></span>Sign Up</button>
-                                    </Link>
-                                </div>
-                            </div>
-                            <Link to="#" className="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span className="icon-menu h3 m-0 p-0 mt-2"></span></Link>
-                        </div>
-                    </div>
-                </div>
-            </header>
+             <NavBar loggedIn={loggedIn} isStudent={isStudent} userId={userId} curPage={2}/>
 
             {/*Home*/}
             <section className="section-hero overlay inner-page bg-image" style={{backgroundImage: "url('https://www.chula.ac.th/wp-content/uploads/2018/03/research-impact-hero-768x480.jpg')"}} id="home-section">
@@ -82,7 +61,7 @@ class ResearchListing extends Component {
                 <ul className="job-listings mb-5">
                     {this.state.postList.map((post,idx) =>
                         <li className="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" key={idx}>
-                          <Link to="/research-detail"></Link>
+                            <Link to={{pathname:"/research-detail", state:{loggedIn:loggedIn, userId:userId, isStudent:isStudent}}}></Link>
 
                           <div className="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
                             <div className="job-listing-position custom-width w-50 mb-3 mb-sm-0">

@@ -10,8 +10,7 @@ class Login extends Component {
         super();
         this.state = {
             email : "",
-            password : "",
-            loggedIn: false
+            password : ""
         };
         this.onChange = this.onChange.bind(this);
     }
@@ -28,10 +27,11 @@ class Login extends Component {
         axios.post(signApi, {email, password})
             .then((res) => {
                 if(res.status === 200){
-                    this.setState({loggedIn: true});
                     this.props.history.push({
                         pathname: '/',
-                        state: {loggedIn: true}
+                        state: {loggedIn: true,
+                                userId:res.data.data._id,
+                                isStudent:res.data.data.isStudent}
                     });
                 }
             });

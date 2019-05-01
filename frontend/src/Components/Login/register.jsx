@@ -12,8 +12,7 @@ class Register extends Component {
             name: "",
             email: "",
             password: "",
-            confirmedPassowrd: "",
-            loggedIn: false
+            confirmedPassowrd: ""
         };
 
         this.onChange = this.onChange.bind(this);
@@ -38,8 +37,12 @@ class Register extends Component {
             axios.post(createApi, {isStudent, name, email, password})
             .then((res) => {
                 if(res.status === 201){
-                    this.setState({loggedIn: true});
-                    this.props.history.push("/", this.state.loggedIn);
+                    this.props.history.push({
+                        pathname: '/',
+                        state: {loggedIn: true,
+                                userId:res.data.data._id,
+                                isStudent:res.data.data.isStudent }
+                    });
                 }
             });
         }
