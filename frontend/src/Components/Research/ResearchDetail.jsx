@@ -77,7 +77,7 @@ class ResearchDetail extends Component {
                           <div className="col-lg-4">
                             <div className="row">
                               <div className="col-6">
-                                <a href="#" className="btn btn-block btn-light btn-md"><span className="icon-heart-o mr-2 text-danger"></span>Save Job</a>
+                                <button className="btn btn-block btn-light btn-md"><span className="icon-heart-o mr-2 text-danger"></span>Save Job</button>
                               </div>
                             </div>
                           </div>
