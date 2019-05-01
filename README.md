@@ -12,12 +12,13 @@ PostResearch.jsx:
 	<br>3. Prompt error message when post failed
 
 register.jsx:
-	<br>1. Change a way of displaying error message for unmatched password
-	<br>2. Prompt error message when register failed
+	<br>1. (Done) Change a way of displaying error message for unmatched password
+	<br>2. (Done) Prompt error message when register failed
 	<br>3. (Done) Pass the login state when rediect
 
 login.jsx:
 	<br>1. (Done) Pass the login state when redirect
+	<br>2. (Done) Prompt error message when login failed
 
 Home.jsx:
 	<br>1. (Done) Display different home page based on user type and user status
