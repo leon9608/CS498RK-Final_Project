@@ -20,7 +20,6 @@ router.get('/', function(req, res){
     }
 
     query.
-        select('jobName description contactName dateCreated').
         exec((err, res_posts) => {
         if(err) {
             res.status(500).send({
