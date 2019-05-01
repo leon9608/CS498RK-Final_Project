@@ -10,7 +10,8 @@ class Login extends Component {
         super();
         this.state = {
             email : "",
-            password : ""
+            password : "",
+            error: false
         };
         this.onChange = this.onChange.bind(this);
     }
@@ -34,12 +35,28 @@ class Login extends Component {
                                 isStudent:res.data.data.isStudent}
                     });
                 }
+            }).catch((err) => {
+                if(err.request){
+                    this.setState({error:true});
+                }
             });
     }
 
 
   render() {
       const {email, password} = this.state;
+
+      let errorMessage;
+      if(this.state.error){
+          errorMessage =
+          <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                Failed to log in, please try again.
+                  <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+          </div>;
+
+      }
     return (
             <div className="site-wrap">
                 <div className="site-mobile-menu site-navbar-target">
@@ -86,6 +103,7 @@ class Login extends Component {
                         <h2 className="mb-4">Log In To ResearchBoard</h2>
                         <form onSubmit={this.onSubmit} className="p-4 border rounded">
 
+                            {errorMessage}
                           <div className="row form-group justify-content-center">
                             <div className="col-md-6 mb-3 mb-md-0">
                               <label className="text-black" htmlFor="email">Email</label>

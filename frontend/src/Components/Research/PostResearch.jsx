@@ -18,7 +18,8 @@ class PostResearch extends Component {
             standing: [],
             term: 0,
             contactEmail: "",
-            contactName: ""
+            contactName: "",
+            error: false
         };
 
         this.onChange = this.onChange.bind(this);
@@ -56,7 +57,6 @@ class PostResearch extends Component {
         const {userId, jobName, description, type, salary, major, standing, term, contactName, contactEmail} = this.state;
         const postAddApi = 'http://localhost:4000/api/posts/add';
 
-        console.log(this.state.userId);
         axios.post(postAddApi, {userId, jobName, description, type, salary, major, standing, term, contactName, contactEmail})
         .then((res)=>{
             if(res.status === 201){
@@ -64,6 +64,10 @@ class PostResearch extends Component {
                     pathname: "/research-detail",
                     state: {loggedIn: true}
                 });
+            }
+        }).catch((err) => {
+            if(err.request){
+                this.setState({error:true});
             }
         });
     }
@@ -73,6 +77,17 @@ class PostResearch extends Component {
         if(typeof this.props.location.state != "undefined"){
             loggedIn = this.props.location.state.loggedIn;
             isStudent = this.props.location.state.isStudent;
+        }
+        let errorMessage;
+        if(this.state.error){
+            errorMessage =
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                  Failed to create new post, please try again.
+                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>;
+
         }
         const { userId, jobName, description, type, salary, standing, term, contactEmail, contactName } = this.state;
         return (
@@ -107,6 +122,7 @@ class PostResearch extends Component {
 
                     <div className="row mb-5">
                       <div className="col-lg-12">
+                          {errorMessage}
                         <form onSubmit={this.onSubmit} className="p-4 p-md-5 border rounded" method="post">
                           <h3 className="text-black mb-5 border-bottom pb-2">Job Details</h3>
                               <div className="form-group">

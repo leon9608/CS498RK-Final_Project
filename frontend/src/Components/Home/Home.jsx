@@ -27,6 +27,21 @@ class Home extends Component {
     }
   }
 
+  //TODO: Finish search
+  onSubmit = (e) => {
+      e.preventDefault();
+
+      const getPostApi = 'http://localhost:4000/api/posts';
+      this.props.history.push({
+          pathname: '/search-result',
+          state: {loggedIn: this.state.loggedIn,
+                  userId:this.state.userId,
+                  isStudent:this.state.isStudent,
+                  postList:this.state.postList
+              }
+      });
+  }
+
   render() {
 
       const { loggedIn, isStudent, userId } = this.state;
@@ -71,7 +86,7 @@ class Home extends Component {
                           <div className="mb-5 text-center">
                             <h1 className="text-white font-weight-bold">Discover Research Opportunities Here</h1>
                           </div>
-                          <form method="post" className="search-jobs-form">
+                          <form onSubmit={this.onSubmit} className="search-jobs-form">
                             <div className="row mb-5 justify-content-center">
                                 <div className="col-lg-8">
                                 <input className="form-control" type="text" placeholder="Search" aria-label="Search"/>

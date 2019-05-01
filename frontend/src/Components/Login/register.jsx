@@ -12,7 +12,9 @@ class Register extends Component {
             name: "",
             email: "",
             password: "",
-            confirmedPassowrd: ""
+            confirmedPassowrd: "",
+            error: false,
+            passwordMismatch: false
         };
 
         this.onChange = this.onChange.bind(this);
@@ -32,7 +34,7 @@ class Register extends Component {
         const { isStudent, name, email, password, confirmedPassowrd} = this.state;
         const createApi = 'http://localhost:4000/api/user/create';
         if(password !== confirmedPassowrd){
-            alert('Password does not match');
+            this.setState({passwordMismatch:true});
         } else {
             axios.post(createApi, {isStudent, name, email, password})
             .then((res) => {
@@ -44,11 +46,36 @@ class Register extends Component {
                                 isStudent:res.data.data.isStudent }
                     });
                 }
+            }).catch((err) => {
+                if(err.request){
+                    this.setState({error:true});
+                }
             });
         }
     }
 
     render(){
+        let errorMessage;
+        if(this.state.passwordMismatch){
+            errorMessage =
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                  Password doesn't match, please try again.
+                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>;
+        }
+        if(this.state.error){
+            errorMessage =
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                  Failed to create account, please try again.
+                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>;
+
+        }
+
         const { name, email, password, confirmedPassowrd } = this.state;
         return (
             <div className="site-wrap">
@@ -95,31 +122,32 @@ class Register extends Component {
                         <div className="col-lg-8">
                             <h2 className="mb-4">Sign Up To ResearchBoard</h2>
                             <form onSubmit={this.onSubmit} className="p-4 border rounded">
+                                {errorMessage}
                                 <div className="row form-group justify-content-center">
                                     <div className="col-md-6 mb-3 mb-md-0">
                                         <label className="text-black" htmlFor="fname">Name</label>
-                                        <input type="text" id="fname" className="form-control" name="name" value={name} onChange={this.onChange} placeholder="Your Name" />
+                                        <input type="text" id="fname" className="form-control" name="name" value={name} onChange={this.onChange} placeholder="Your Name"/>
                                     </div>
                                 </div>
 
                                 <div className="row form-group justify-content-center">
                                     <div className="col-md-6 mb-3 mb-md-0">
                                         <label className="text-black" htmlFor="email">Email</label>
-                                        <input type="text" id="email" className="form-control" name="email" value={email} onChange={this.onChange} placeholder="Your Email" />
+                                        <input type="text" id="email" className="form-control" name="email" value={email} onChange={this.onChange} placeholder="Your Email"/>
                                     </div>
                                 </div>
 
                                 <div className="row form-group justify-content-center">
                                     <div className="col-md-6 mb-3 mb-md-0">
                                         <label className="text-black" htmlFor="password">Password</label>
-                                        <input type="password" id="password" className="form-control" name="password" value={password} onChange={this.onChange} placeholder="Password" />
+                                        <input type="password" id="password" className="form-control" name="password" value={password} onChange={this.onChange} placeholder="Password"/>
                                     </div>
                                 </div>
 
                                 <div className="row form-group justify-content-center">
                                     <div className="col-md-6 mb-3 mb-md-0">
                                         <label className="text-black" htmlFor="confirmedPassowrd">Re-Type Password</label>
-                                        <input type="password" id="confirmedPassowrd" className="form-control" name="confirmedPassowrd" value={confirmedPassowrd} onChange={this.onChange} placeholder="Re-type Password" />
+                                        <input type="password" id="confirmedPassowrd" className="form-control" name="confirmedPassowrd" value={confirmedPassowrd} onChange={this.onChange} placeholder="Re-type Password"/>
                                     </div>
                                 </div>
 
