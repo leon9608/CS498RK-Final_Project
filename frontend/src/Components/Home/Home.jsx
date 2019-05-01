@@ -163,7 +163,7 @@ class Home extends Component {
                     <ul className="job-listings mb-5">
                         {this.state.postList.map((post, idx) =>
                             <li className="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" key={idx}>
-                              <Link to={{pathname:"/research-detail", state:{loggedIn:loggedIn, userId:userId, isStudent:isStudent}}}></Link>
+                              <Link to={{pathname:"/research-detail", state:{loggedIn:loggedIn, userId:userId, isStudent:isStudent, postid: post._id}}}></Link>
 
                               <div className="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
                                 <div className="job-listing-position custom-width w-50 mb-3 mb-sm-0">

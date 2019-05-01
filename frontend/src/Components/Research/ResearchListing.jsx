@@ -23,6 +23,7 @@ class ResearchListing extends Component {
   }
 
   render() {
+    console.log(this)
       let loggedIn = false, userId, isStudent;
       if(typeof this.props.location.state != "undefined"){
           loggedIn = this.props.location.state.loggedIn;
