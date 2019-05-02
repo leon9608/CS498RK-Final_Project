@@ -10,11 +10,6 @@ class ResearchDetail extends Component {
       super();
       this.state = {
           retval : "",
-          major: [],
-          term: 0,
-          type:0,
-          salary: 0,
-          standing: []
       };
   }
 
@@ -24,9 +19,6 @@ class ResearchDetail extends Component {
 
       axios.get(url).then(
           res => {
-              console.log(res.data.data)
-              var major = [];
-              var term = "happy";
               this.setState({retval: res.data.data});
           }
       )
