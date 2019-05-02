@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
-
+import swal from 'sweetalert';
 
 class PostResearch extends Component {
     constructor(){
@@ -18,7 +18,9 @@ class PostResearch extends Component {
             term: 0,
             contactEmail: "",
             contactName: "",
-            error: false
+            error: false,
+            loggedIn: false,
+            isStudent: false
         };
 
         this.onChange = this.onChange.bind(this);
@@ -45,7 +47,20 @@ class PostResearch extends Component {
 
     componentDidMount(){
         if(typeof this.props.location.state != "undefined"){
-            this.setState({userId:this.props.location.state.userId});
+            this.setState({userId:this.props.location.state.userId,
+                            loggedIn: this.props.location.state.loggedIn,
+                            isStudent: this.props.location.state.isStudent});
+        } else {
+            this.props.history.push({
+            pathname: '/'
+            });
+        }
+    }
+
+    // For the back button
+    goBack = () => {
+        if(typeof this.props.history != "undefined"){
+            this.props.history.goBack();
         }
     }
 
@@ -59,10 +74,10 @@ class PostResearch extends Component {
         axios.post(postAddApi, {userId, jobName, description, type, salary, major, standing, term, contactName, contactEmail})
         .then((res)=>{
             if(res.status === 201){
-                this.props.history.push({
-                    pathname: "/research-detail",
-                    state: {loggedIn: true, postid: res.data.data._id}
+                swal({
+                    icon: "success",
                 });
+                this.goBack();
             }
         }).catch((err) => {
             if(err.request){
@@ -72,11 +87,6 @@ class PostResearch extends Component {
     }
 
     render(){
-        let loggedIn = false, isStudent;
-        if(typeof this.props.location.state != "undefined"){
-            loggedIn = this.props.location.state.loggedIn;
-            isStudent = this.props.location.state.isStudent;
-        }
         let errorMessage;
         if(this.state.error){
             errorMessage =
@@ -88,7 +98,7 @@ class PostResearch extends Component {
             </div>;
 
         }
-        const { userId, jobName, description, type, salary, standing, term, contactEmail, contactName } = this.state;
+        const { userId, jobName, description, type, salary, standing, term, contactEmail, contactName, loggedIn, isStudent } = this.state;
         return (
             <div className="site-wrap">
 

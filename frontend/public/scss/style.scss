@@ -1,4 +1,4 @@
-/* 
+/*
 ////////////////////////////////////////////////////////////////
 
 Author: Free-Template.co
@@ -6,7 +6,7 @@ Author URL: http://free-template.co.
 License: https://creativecommons.org/licenses/by/3.0/
 License URL: https://creativecommons.org/licenses/by/3.0/
 Site License URL: https://free-template.co/template-license/
-  
+
 Website:  https://free-template.co
 Facebook: https://www.facebook.com/FreeDashTemplate.co
 Twitter:  https://twitter.com/Free_Templateco
@@ -107,9 +107,9 @@ h1, h2, h3, h4 {
 	  }
 	   .filter-option {
 	  	&:after {
-		   
+
 		   	border: none;
-				display: inline-block;	
+				display: inline-block;
 		   	position: absolute;
 		    content: "\e313";
 		    font-size: 16px;
@@ -130,7 +130,7 @@ h1, h2, h3, h4 {
 	  	.dropdown-toggle, .filter-option {
 	  		&:after {
 	  			border: none;
-				display: inline-block;	
+				display: inline-block;
 		   	position: absolute;
 		    content: "\e313";
 		    font-size: 16px;
@@ -161,8 +161,8 @@ h1, h2, h3, h4 {
 	  	border: transparent!important;
 	  	color: $dark;
 	  	&:active, &:focus {
-	  		
-	  		color: $dark;	
+
+	  		color: $dark;
 	  	}
 	  	&::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 			  color: rgba($dark, .5);
@@ -192,7 +192,7 @@ h1, h2, h3, h4 {
 	  	box-shadow: 0 4px 20px -5px rgba(0,0,0,.4);
 	  }
 	}
-	
+
 	.scroll-button {
 		position: absolute;
 		z-index: 2;
@@ -262,9 +262,9 @@ h1, h2, h3, h4 {
 .form-group {
 	.filter-option {
 		&:after {
-	   
+
 	   	border: none!important;
-			display: inline-block;	
+			display: inline-block;
 	   	position: absolute;
 	    content: "\e313";
 	    font-size: 16px;
@@ -284,7 +284,7 @@ h1, h2, h3, h4 {
 		.dropdown-toggle {
 			&:after {
 				border: none;
-			display: inline-block;	
+			display: inline-block;
 	   	position: absolute;
 	    content: "\e313";
 	    font-size: 16px;
@@ -374,7 +374,7 @@ h1, h2, h3, h4 {
 			font-size: 1.4rem;
 		}
 		cite {
-			font-size: 1.2rem;	
+			font-size: 1.2rem;
 		}
 	}
 
@@ -435,7 +435,7 @@ h1, h2, h3, h4 {
 			color: lighten($black, 70%);
 		}
 	}
-	
+
 }
 .btn-file {
     position: relative;
@@ -467,13 +467,13 @@ h1, h2, h3, h4 {
 	.slash {
 		color: rgba($white, .4);
 	}
-} 
+}
 
 .spepcial_link {
 	position: relative;
 	text-decoration: none!important;
 	color: $black;
-	
+
 	&:before {
 		position: absolute;
 		z-index: -1;
@@ -498,12 +498,12 @@ h1, h2, h3, h4 {
 
 // ABOUT
 .about-us-section {
-	
+
 }
 
 .img-overlap {
 	position: relative;
-	
+
 	.img-1, .img-2 {
 		position: absolute;
 		padding: 4%;
@@ -550,7 +550,7 @@ h1, h2, h3, h4 {
 	&, & > .container > .row {
 		height: 100vh;
 		min-height: 900px;
-	}	
+	}
 	&.inner-page {
 		&, & > .container > .row {
 			height: auto;
@@ -571,9 +571,9 @@ h1, h2, h3, h4 {
 	}
 	&.overlay-2 {
 		&:before {
-			background: rgba(#7D8384, .95);	
+			background: rgba(#7D8384, .95);
 		}
-		
+
 	}
 	> .container {
 		z-index: 2;
@@ -587,16 +587,16 @@ h1, h2, h3, h4 {
   top: 0;
   bottom: 0;
   width: 100%;
-  height: 100%; 
+  height: 100%;
   overflow: hidden;
   z-index: -1;
   video {
-  	min-width: 100%; 
-  	min-height: 100%; 
-  
+  	min-width: 100%;
+  	min-height: 100%;
+
   	width: auto;
   	height: auto;
-  
+
   	position: absolute;
   	top: 50%;
   	left: 50%;
@@ -652,7 +652,7 @@ h1, h2, h3, h4 {
 	&.btn-outline-white {
 		background: transparent;
 		border-width: 2px;
-		border-color: $white; 
+		border-color: $white;
 		color: $white;
 		&:hover {
 			background: $white;
@@ -775,13 +775,13 @@ h1, h2, h3, h4 {
 		[class^="icon-"], [class^="flaticon-"] {
 			font-size: 1.6rem;
 			color: $white;
-			
+
 			position: absolute;
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
 			transition: .3s all cubic-bezier(.66,.2,.48,.9);;
-		}	
+		}
 		h3 {
 			font-size: 1.2rem;
 			margin-bottom: 1.2rem;
@@ -801,7 +801,7 @@ h1, h2, h3, h4 {
 				[class^="icon-"], [class^="flaticon-"] {
 
 					color: $primary;
-				}	
+				}
 			}
 		}
 	}
@@ -902,7 +902,7 @@ h1, h2, h3, h4 {
 		@include media-breakpoint-down(lg) {
 			height: 200px;
 		}
-		
+
 	}
 	> div {
 		padding: 40px;
@@ -929,7 +929,7 @@ h1, h2, h3, h4 {
 				&:hover {
 					text-decoration: none;
 				}
-				
+
 			}
 		}
 	}
@@ -985,14 +985,14 @@ h1, h2, h3, h4 {
 				&[aria-expanded="false"] {
 					&:before {
 						content: "\e313";
-						color: #ccc;	
+						color: #ccc;
 						font-family: 'icomoon';
 						position: absolute;
-				
+
 						transition: .3s all ease;
 					}
 				}
-				
+
 			}
 		}
 		.body-text {
@@ -1004,7 +1004,7 @@ h1, h2, h3, h4 {
 }
 
 
-.item { 
+.item {
   border: none;
   margin-bottom: 30px;
   border-radius: 4px;
@@ -1232,12 +1232,12 @@ h1, h2, h3, h4 {
        -o-transition-property:         top, left, opacity;
           transition-property:         transform, opacity;
 }
-  
-  
+
+
 /* responsive media queries */
 
 @media (max-width: 768px) {
- 
+
 }
 
 
@@ -1386,9 +1386,9 @@ h1, h2, h3, h4 {
 	padding: 25px;
 	font-size: 15px;
 	width: 100%;
-	
+
 	float: left;
-	
+
 	background: $white;
 	*:last-child {
 		margin-bottom: 0;
@@ -1555,7 +1555,7 @@ h1, h2, h3, h4 {
 		@include media-breakpoint-down(md) {
 			margin-left: auto;
 			margin-right: auto;
-		}	
+		}
 	}
 }
 
@@ -1563,7 +1563,7 @@ h1, h2, h3, h4 {
 /*PRELOADING------------ */
 #overlayer {
   width:100%;
-  height:100%;  
+  height:100%;
   position:fixed;
   z-index:7100;
   background: $white;

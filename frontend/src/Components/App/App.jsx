@@ -11,8 +11,7 @@ import ResearchListing from "../Research/ResearchListing.jsx";
 import SearchResultListing from "../Research/SearchResultListing.jsx";
 import ResearchDetail from "../Research/ResearchDetail.jsx";
 import PostResearch from "../Research/PostResearch.jsx";
-import MyPortfolio from '../Portfolio/MyPortfolio.jsx';
-import MySavedPosts from '../Portfolio/MySavedPosts.jsx';
+import MyProfile from '../Profile/MyProfile.jsx';
 
 class App extends Component {
   render() {
@@ -27,8 +26,7 @@ class App extends Component {
           <Route exact path="/search-result" component={SearchResultListing}/>
           <Route exact path="/research-detail" component={ResearchDetail}/>
           <Route exact path="/create-research" component={PostResearch}/>
-          <Route exact path="/portfolio" component={MyPortfolio}/>
-          <Route exact path="/saved-posts" component={MySavedPosts}/>
+          <Route exact path="/profile" component={MyProfile}/>
 
         </Switch>
       </Router>

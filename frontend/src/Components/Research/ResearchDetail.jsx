@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 
 class ResearchDetail extends Component {
@@ -11,7 +12,9 @@ class ResearchDetail extends Component {
           retval : "",
           loggedIn: false,
           userId: "",
-          isStudent: false
+          isStudent: false,
+          userPostList: [],
+          hasPost: false
       };
   }
 
@@ -25,9 +28,16 @@ class ResearchDetail extends Component {
                   this.setState({retval: res.data.data});
               }
           );
+
+          const boolVal = this.props.location.state.userPostList.includes(this.props.location.state.postid);
           this.setState({loggedIn: this.props.location.state.loggedIn,
                         userId: this.props.location.state.userId,
-                        isStudent: this.props.location.state.isStudent});
+                        isStudent: this.props.location.state.isStudent,
+                        userPostList: this.props.location.state.userPostList,
+                        hasPost: boolVal
+                    });
+
+
       } else {
           this.props.history.push({
           pathname: '/'
@@ -140,24 +150,71 @@ class ResearchDetail extends Component {
       }
   }
 
-  //TODO:For the save button
+  //For the save button
   savePost = () => {
+      const userId = this.state.userId, postId = this.state.retval._id;
+      const hasPost = this.state.hasPost;
+      const favoriteUrl = 'http://localhost:4000/api/user/favoriteUpdate';
+      axios.put(favoriteUrl, {userId, postId}).then(
+          res => {
+              this.setState({hasPost: !hasPost});
+          }
+      );
 
   }
 
+  //TODO: for the delete button
+  deletePost = () => {
+      const deleteUrl = 'http://localhost:4000/api/posts/delete/'+this.state.retval._id;
+      axios.delete(deleteUrl).then(
+          res => {
+              this.setState({hasPost: false});
+              swal({
+                  icon: "success",
+              });
+              this.goBack();
+          }
+      )
+  }
+
     render(){
-        const {loggedIn, userId, isStudent} = this.state;
+        const {loggedIn, userId, isStudent, hasPost} = this.state;
 
         let saveButton;
-        if(loggedIn && isStudent){
-            saveButton =
-            <div className="col-lg-4">
-              <div className="row">
-                <div className="col-6">
-                  <button className="btn btn-block btn-light btn-md" onClick={this.savePost}><span className="icon-heart-o mr-2 text-danger"></span>Save Job</button>
-                </div>
-              </div>
-            </div>;
+        if(loggedIn){
+            if(isStudent){
+                if(hasPost){
+                    saveButton =
+                    <div className="col-lg-4">
+                        <div className="row">
+                            <div className="col-6">
+                                <button className="btn btn-block btn-light btn-md" onClick={this.savePost}><span className="icon-heart mr-2 text-danger"></span>Unfavorite</button>
+                            </div>
+                        </div>
+                    </div>;
+
+                } else {
+                saveButton =
+                <div className="col-lg-4">
+                    <div className="row">
+                        <div className="col-6">
+                            <button className="btn btn-block btn-light btn-md" onClick={this.savePost}><span className="icon-heart-o mr-2 text-danger"></span>Favorite</button>
+                        </div>
+                    </div>
+                </div>;
+            }
+            } else {
+                if(hasPost){
+                saveButton =
+                <div className="col-lg-4">
+                    <div className="row">
+                        <div className="col-6">
+                            <button className="btn btn-block btn-danger btn-md" onClick={this.deletePost}><span className="icon-delete mr-2 text-light"></span>Delete</button>
+                        </div>
+                    </div>
+                </div>;
+                }
+            }
         }
 
         return (
@@ -223,8 +280,8 @@ class ResearchDetail extends Component {
                             <div className="mb-5">
                               <h3 className="h5 d-flex align-items-center mb-4 text-primary"><span className="icon-turned_in mr-3"></span>Contact Info</h3>
                               <ul className="list-unstyled m-0 p-0">
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Contact Name: {this.state.retval.contactName}</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Conatct Email: {this.state.retval.contactEmail}</span></li>
+                                <li className="d-flex align-items-start mb-2"><span className="icon-contacts mr-2 text-muted"></span><span>Contact Name: {this.state.retval.contactName}</span></li>
+                                <li className="d-flex align-items-start mb-2"><span className="icon-mail_outline mr-2 text-muted"></span><span>Conatct Email: {this.state.retval.contactEmail}</span></li>
                               </ul>
                             </div>
 

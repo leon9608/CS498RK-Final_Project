@@ -974,7 +974,7 @@ h1, h2, h3, h4 {
     border-color: #41B3A3; }
 
 .border-width-2 {
-  border-width: 2px !important; 
+  border-width: 2px !important;
   margin: 5px;
     }
 
@@ -1686,7 +1686,7 @@ h1, h2, h3, h4 {
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); }
-  
+
   .padding-top-btn{
   transform: translateY(40%);
   }

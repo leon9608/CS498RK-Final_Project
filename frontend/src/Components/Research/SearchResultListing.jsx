@@ -6,18 +6,12 @@ import ResearchList from '../Segments/ResearchList.jsx';
 
 class SearchResultListing extends Component {
     state = {
-        postList : [],
-        loggedIn: false,
-        userId: "",
-        isStudent: false
+        postList : []
     };
 
     componentDidMount(){
         if(typeof this.props.location.state != "undefined"){
-            this.setState({postList:this.props.location.state.postList,
-                        loggedIn: this.props.location.state.loggedIn,
-                        userId: this.props.location.state.userId,
-                        isStudent: this.props.location.state.isStudent});
+            this.setState({postList:this.props.location.state.postList});
             }else {
                 this.props.history.push({
                 pathname: '/'
@@ -26,7 +20,12 @@ class SearchResultListing extends Component {
     }
 
     render(){
-        const {loggedIn, userId, isStudent} = this.state;
+        let loggedIn = false, userId, isStudent;
+        if(typeof this.props.location.state != "undefined"){
+            loggedIn = this.props.location.state.loggedIn;
+            userId = this.props.location.state.userId;
+            isStudent = this.props.location.state.isStudent;
+        }
 
         return(
             <div className="site-wrap">
@@ -47,6 +46,7 @@ class SearchResultListing extends Component {
                     <div className="col-md-12">
                         <div className="mb-5 text-center">
                           <h1 className="text-white font-weight-bold">Search Results</h1>
+                          <h2 className="text-white">Found {this.state.postList.length} possible roles</h2>
                         </div>
                     </div>
                   </div>

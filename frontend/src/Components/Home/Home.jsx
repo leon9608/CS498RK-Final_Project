@@ -29,7 +29,9 @@ class Home extends Component {
           res => {
               this.setState({postList: res.data.data});
           }
-      )
+      );
+
+
       if(typeof this.props.location.state != "undefined"){
             this.setState({loggedIn: this.props.location.state.loggedIn,
                 userId: this.props.location.state.userId,
@@ -119,8 +121,15 @@ class Home extends Component {
   }
 
   render() {
+      let loggedIn = false, userId, isStudent;
+      if(typeof this.props.location.state != "undefined"){
+          loggedIn = this.props.location.state.loggedIn;
+          userId = this.props.location.state.userId;
+          isStudent = this.props.location.state.isStudent;
+      }
 
-      const { loggedIn, isStudent, userId, searchText} = this.state;
+      const {searchText} = this.state;
+
       let BottomSignUp;
       if(!loggedIn){
           BottomSignUp = <section className="py-5 bg-image overlay-primary fixed overlay">
@@ -218,9 +227,6 @@ class Home extends Component {
                       </div>
                     </div>
 
-                    <a href="#next" className="scroll-button smoothscroll">
-                      <span className=" icon-keyboard_arrow_down"></span>
-                    </a>
                 </section>
 
                 <section className="site-section" id="next">

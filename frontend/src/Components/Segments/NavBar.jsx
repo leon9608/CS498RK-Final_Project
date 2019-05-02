@@ -12,18 +12,27 @@ class NavBar extends Component{
         let userButton;
         if(loggedIn){
             if(isStudent){
-                userButton = <Link to="/login">
-                <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log Out</button>
-                </Link>;
+                userButton =
+                <div>
+                <Link to={{pathname:"/profile", state:{loggedIn:loggedIn, userId:userId, isStudent:isStudent}}}>
+                    <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-account_circle"></span>Profile</button>
+                </Link>
+                <Link to="/login">
+                    <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log Out</button>
+                </Link>
+                </div>;
             } else {
-            userButton = <div>
-            <Link to={{pathname:"/create-research", state:{loggedIn:loggedIn, userId:userId}}} className="btn btn-outline-white border-width-2 d-none d-lg-inline-block">
-                <span className="mr-2 icon-add"></span>Post a Job</Link>
-
-            <Link to="/login">
-            <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log Out</button>
-            </Link>
-        </div>;
+                userButton =
+                <div>
+                    <Link to={{pathname:"/create-research", state:{loggedIn:loggedIn, userId:userId}}} className="btn btn-outline-white border-width-2 d-none d-lg-inline-block">
+                    <span className="mr-2 icon-add"></span>Post a Job</Link>
+                    <Link to={{pathname:"/profile", state:{loggedIn:loggedIn, userId:userId, isStudent:isStudent}}}>
+                        <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-account_circle"></span>Profile</button>
+                    </Link>
+                    <Link to="/login">
+                        <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log Out</button>
+                    </Link>
+                </div>;
         }
         } else {
             userButton = <div className="btn-group" role="group">
@@ -40,26 +49,26 @@ class NavBar extends Component{
         if(curPage === 0){
             menu = <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
                 <li className="nav-link"><Link to={{pathname:"/", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}} className="active">Home</Link></li>
-                <li className="nav-link"><Link to={{pathname:"/about", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}}>About</Link></li>
                 <li className="nav-link"><Link to={{pathname:"/research-listing", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}}>Recent Opportunities</Link></li>
+                <li className="nav-link"><Link to={{pathname:"/about", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}}>About</Link></li>
             </ul>;
         } else if(curPage === 1){
             menu = <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
                 <li className="nav-link"><Link to={{pathname:"/", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}}>Home</Link></li>
-                <li className="nav-link"><Link to={{pathname:"/about", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}} className="active">About</Link></li>
                 <li className="nav-link"><Link to={{pathname:"/research-listing", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}}>Recent Opportunities</Link></li>
+                <li className="nav-link"><Link to={{pathname:"/about", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}} className="active">About</Link></li>
             </ul>;
         } else if (curPage===2){
             menu = <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
                 <li className="nav-link"><Link to={{pathname:"/", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}}>Home</Link></li>
-                <li className="nav-link"><Link to={{pathname:"/about", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}}>About</Link></li>
                 <li className="nav-link"><Link to={{pathname:"/research-listing", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}} className="active">Recent Opportunities</Link></li>
+                <li className="nav-link"><Link to={{pathname:"/about", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}}>About</Link></li>
             </ul>;
         } else {
             menu = <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
                 <li className="nav-link"><Link to={{pathname:"/", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}}>Home</Link></li>
-                <li className="nav-link"><Link to={{pathname:"/about", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}}>About</Link></li>
                 <li className="nav-link"><Link to={{pathname:"/research-listing", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}}>Recent Opportunities</Link></li>
+                <li className="nav-link"><Link to={{pathname:"/about", state:{loggedIn:loggedIn, isStudent:isStudent, userId:userId}}}>About</Link></li>
             </ul>;
         }
 
