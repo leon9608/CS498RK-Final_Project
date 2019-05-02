@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
 import ResearchList from '../Segments/ResearchList.jsx';
@@ -23,7 +22,6 @@ class ResearchListing extends Component {
   }
 
   render() {
-    console.log(this)
       let loggedIn = false, userId, isStudent;
       if(typeof this.props.location.state != "undefined"){
           loggedIn = this.props.location.state.loggedIn;

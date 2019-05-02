@@ -4,14 +4,24 @@ import axios from 'axios';
 
 import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
+import ResearchList from '../Segments/ResearchList.jsx';
 
 class Home extends Component {
-        state = {
+    constructor(){
+        super();
+        this.state = {
             postList : [],
             loggedIn: false,
             userId: "",
-            isStudent: true
+            isStudent: true,
+            searchText: "",
+            type:-1,
+            major: -1,
+            salary: -1,
+            standing: -1
         };
+        this.onChange = this.onChange.bind(this);
+    }
 
   componentDidMount(){
       const postListApi = 'http://localhost:4000/api/posts';
@@ -27,25 +37,90 @@ class Home extends Component {
     }
   }
 
-  //TODO: Finish search
+  onChange = (e) => {
+      if(e.target.name !== "searchText"){
+          this.setState({[e.target.name]: parseInt(e.target.value)});
+      } else {
+      this.setState({[e.target.name]: e.target.value});
+      }
+  }
+
+  //For search
   onSubmit = (e) => {
       e.preventDefault();
 
+      const {loggedIn, userId, isStudent, searchText, type, major, salary, standing } = this.state;
       const getPostApi = 'http://localhost:4000/api/posts';
-      this.props.history.push({
-          pathname: '/search-result',
-          state: {loggedIn: this.state.loggedIn,
-                  userId:this.state.userId,
-                  isStudent:this.state.isStudent,
-                  postList:this.state.postList
-              }
+
+      let whereClause = `{`, hasWhere = false;
+      if(searchText !== ""){
+          hasWhere = true;
+          whereClause += `"jobName":{"$regex":"` + searchText + `", "$options":"i"}`;
+      }
+
+      // Type
+      if(type !== -1){
+          if(hasWhere){
+            whereClause += `,"type":`+type;
+          } else {
+            hasWhere =true;
+            whereClause += `"type":`+type;
+            }
+        }
+
+     // Major
+      if(major !== -1){
+          if(hasWhere){
+             whereClause += `,"major":`+major;
+         } else {
+             hasWhere = true;
+             whereClause += `"major":`+major;
+         }
+      }
+
+      // Salary
+      if(standing !== -1){
+          if(hasWhere){
+             whereClause += `,"standing":`+standing;
+         } else {
+             hasWhere = true;
+             whereClause += `"standing":`+standing;
+         }
+      }
+
+      // Standing
+      if(salary !== -1){
+          if(hasWhere){
+             whereClause += `,"salary":`+salary;
+         } else {
+             hasWhere = true;
+             whereClause += `"salary":`+salary;
+         }
+      }
+      whereClause += `}`;
+
+      const params = {
+          where: whereClause,
+      }
+      axios.get(getPostApi, {params})
+      .then((res) => {
+          if(res.status === 200){
+              this.props.history.push({
+                  pathname: '/search-result',
+                  state: {loggedIn: loggedIn,
+                          userId:userId,
+                          isStudent:isStudent,
+                          postList:res.data.data
+                      }
+              });
+          }
       });
+
   }
 
   render() {
 
-      const { loggedIn, isStudent, userId } = this.state;
-
+      const { loggedIn, isStudent, userId, searchText} = this.state;
       let BottomSignUp;
       if(!loggedIn){
           BottomSignUp = <section className="py-5 bg-image overlay-primary fixed overlay">
@@ -65,14 +140,7 @@ class Home extends Component {
 
     return (
         <div className="site-wrap">
-                <div className="site-mobile-menu site-navbar-target">
-                    <div className="site-mobile-menu-header">
-                        <div className="site-mobile-menu-close mt-3">
-                            <span className="icon-close2 js-menu-toggle"></span>
-                        </div>
-                    </div>
-                    <div className="site-mobile-menu-body"></div>
-                </div>
+
 
                 {/* NAVBAR */}
                 <NavBar loggedIn={loggedIn} isStudent={isStudent} userId={userId} curPage={0}/>
@@ -89,50 +157,54 @@ class Home extends Component {
                           <form onSubmit={this.onSubmit} className="search-jobs-form">
                             <div className="row mb-5 justify-content-center">
                                 <div className="col-lg-8">
-                                <input className="form-control" type="text" placeholder="Search" aria-label="Search"/>
+                                <input className="form-control" type="text" placeholder="Search" aria-label="Search" id="searchText" name="searchText" value={searchText} onChange={this.onChange}/>
                                 </div>
                             </div>
                             <div className="row mb-5">
                               <div className="col-sm-3">
-                                <select className="form-control" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Type">
-                                    <option>Grader/Class Assistant</option>
-                                    <option>User Study</option>
-                                    <option>Research Assistant</option>
+                                <select className="custom-select" defaultValue="-1" id="type" name="type" onChange={this.onChange}>
+                                    <option value="-1">Type</option>
+                                    <option value="0">Grader/Class Assistant</option>
+                                    <option value="1">User Study</option>
+                                    <option value="2">Research Assistant</option>
                                 </select>
                               </div>
                               <div className="col-sm-3">
-                                <select className="form-control" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Your Major">
-                                  <option>Aerospace Engineering</option>
-                                  <option>Agricultural and Biological engineering</option>
-                                  <option>Bioengineering</option>
-                                  <option>Chemical & Biomolecular engineering</option>
-                                  <option>Civil and environmental engineering</option>
-                                  <option>Computer engineering</option>
-                                  <option>Computer Science</option>
-                                  <option>Electrical engineering</option>
-                                  <option>Engineering mechanics</option>
-                                  <option>Engineering Physics</option>
-                                  <option>Industrial Engineering</option>
-                                  <option>Materials Science and Engineering</option>
-                                  <option>Mechanical Engineering</option>
-                                  <option>Nuclear, Plasma, and Radiological Engineering</option>
-                                  <option>Systems Engineering and Design</option>
+                                <select className="form-control" id="major" name="major" defaultValue="-1" onChange={this.onChange}>
+                                  <option value="-1">Major</option>
+                                  <option value="0">Aerospace Engineering</option>
+                                  <option value="1">Agricultural and Biological engineering</option>
+                                  <option value="2">Bioengineering</option>
+                                  <option value="3">Chemical & Biomolecular engineering</option>
+                                  <option value="4">Civil and environmental engineering</option>
+                                  <option value="5">Computer engineering</option>
+                                  <option value="6">Computer Science</option>
+                                  <option value="7">Electrical engineering</option>
+                                  <option value="8">Engineering mechanics</option>
+                                  <option value="9">Engineering Physics</option>
+                                  <option value="10">Industrial Engineering</option>
+                                  <option value="11">Materials Science and Engineering</option>
+                                  <option value="12">Mechanical Engineering</option>
+                                  <option value="13">Nuclear, Plasma, and Radiological Engineering</option>
+                                  <option value="14">Systems Engineering and Design</option>
                                 </select>
                               </div>
 
                               <div className="col-sm-3">
-                                <select className="form-control" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Salary">
-                                  <option> $0~10/hr </option>
-                                  <option> $11~15/hr</option>
-                                  <option> $15/hr</option>
+                                <select className="form-control" id="salary" name="salary" defaultValue="-1" onChange={this.onChange}>
+                                  <option value="-1"> Salary </option>
+                                  <option value="0"> $0~10/hr </option>
+                                  <option value="1"> $11~15/hr</option>
+                                  <option value="2"> $15/hr</option>
                                 </select>
                               </div>
                               <div className="col-sm-3">
-                                <select className="form-control" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Class Standing">
-                                  <option> Freshman </option>
-                                  <option> Sophomore</option>
-                                  <option> Junior </option>
-                                  <option> Senior</option>
+                                <select className="form-control" id="standing" name="standing" defaultValue="-1" onChange={this.onChange}>
+                                  <option value="-1">Class Standing</option>
+                                  <option value="0"> Freshman </option>
+                                  <option value="1"> Sophomore</option>
+                                  <option value="2"> Junior </option>
+                                  <option value="3"> Senior</option>
                                 </select>
                               </div>
                             </div>
@@ -160,27 +232,9 @@ class Home extends Component {
                       </div>
                     </div>
 
-                    <ul className="job-listings mb-5">
-                        {this.state.postList.map((post, idx) =>
-                            <li className="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" key={idx}>
-                              <Link to={{pathname:"/research-detail", state:{loggedIn:loggedIn, userId:userId, isStudent:isStudent, postid: post._id}}}></Link>
+                    <ResearchList postList={this.state.postList} loggedIn={loggedIn} userId={userId} isStudent={isStudent}/>
 
-                              <div className="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-                                <div className="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                                  <h2>{post.jobName}</h2>
-                                  <strong>{post.description}</strong>
-                                </div>
-                                <div className="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                                  <span className="icon-contact_mail"></span>{post.contactName}
-                                </div>
-                                <div className="job-listing-meta">
-                                  <span className="icon-date_range"></span>{post.dateCreated}
-                                </div>
-                              </div>
-                            </li>
 
-                        )}
-                    </ul>
                     {/*For pagination*/}
                   </div>
                 </section>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
 import axios from 'axios';
@@ -10,93 +9,103 @@ class ResearchDetail extends Component {
       super();
       this.state = {
           retval : "",
+          loggedIn: false,
+          userId: "",
+          isStudent: false
       };
   }
 
 
   componentDidMount(){
-      const url = 'http://localhost:4000/api/posts/' + this.props.location.state.postid;
+      if(typeof this.props.location.state !== "undefined"){
+          const url = 'http://localhost:4000/api/posts/' + this.props.location.state.postid;
 
-      axios.get(url).then(
-          res => {
-              this.setState({retval: res.data.data});
-          }
-      )
+          axios.get(url).then(
+              res => {
+                  this.setState({retval: res.data.data});
+              }
+          );
+          this.setState({loggedIn: this.props.location.state.loggedIn,
+                        userId: this.props.location.state.userId,
+                        isStudent: this.props.location.state.isStudent});
+      } else {
+          this.props.history.push({
+          pathname: '/'
+          });
+    }
   }
   termSelect(data){
 
-    if(data == undefined)
+    if(data === undefined)
       return "";
-    if(data == 0){
+    if(data === 0){
       return "Spring";
-    }else if(data == 1){
+  }else if(data === 1){
       return "Summer";
     }else return "Fall";
 
   }
   salarySelect(data){
-    if(data == undefined)
+    if(data === undefined)
       return "";
-    if(data == 0){
+    if(data === 0){
       return "0~10 /hr";
-    }else if(data == 1){
+  }else if(data === 1){
       return "11~15 /hr";
     }else return "15+ /hr";
 
   }
 
   typeSelect(data){
-    if(data == undefined)
+    if(data === undefined)
       return "";
-    if(data == 0){
+    if(data === 0){
       return "Grader/Class Assistant";
-    }else if(data == 1){
+  }else if(data === 1){
       return "User study";
     }else return "Research Assistant";
   }
 
   majorSelect(data){
-    if(data == undefined)
+    if(data === undefined)
       return "";
-    console.log(data)
     var toret = ""
     for(var i = 0; i < data.length; i++){
-      console.log(data[i])
-      if(data[i] == 0){
+      if(data[i] === 0){
         toret = toret + "Aerospace Engineering";
-      }else if(data[i] == 1){
+    }else if(data[i] === 1){
         toret = toret +  "Agricultural and Biological engineering";
-      }else if(data[i] == 2){
+    }else if(data[i] === 2){
         toret = toret +  "Bioengineering";
-      }else if(data[i] == 3){
-        toret = toret + "Chemical & Biomolecular engineering"        
-      }else if(data[i] == 4){
+    }else if(data[i] === 3){
+        toret = toret + "Chemical & Biomolecular engineering"
+    }else if(data[i] === 4){
         toret = toret +  "Civil and environmental engineering";
-      }else if(data[i] == 5){
+    }else if(data[i] === 5){
         toret = toret +  "Computer engineering";
-      }else if(data[i] == 6){
-        toret = toret + "Computer Science"        
-      }else if(data[i] == 7){
+    }else if(data[i] === 6){
+        toret = toret + "Computer Science"
+    }else if(data[i] === 7){
         toret = toret +  "Electrical Engineering";
-      }else if(data[i] == 8){
-        toret = toret + "Engineering Mechanics"        
-      }else if(data[i] == 9){
+    }else if(data[i] === 8){
+        toret = toret + "Engineering Mechanics"
+    }else if(data[i] === 9){
         toret = toret +  " Engineering Physics";
-      }else if(data[i] == 10){
+    }else if(data[i] === 10){
         toret = toret +  "Industrial Engineering";
-      }else if(data[i] == 11){
-        toret = toret + "Materials Science and Engineering"        
-      }else if(data[i] == 12){
+    }else if(data[i] === 11){
+        toret = toret + "Materials Science and Engineering"
+    }else if(data[i] === 12){
         toret = toret +  "Mechanical Engineering";
-      }else if(data[i] == 13){
+    }else if(data[i] === 13){
         toret = toret +  "Nuclear, Plasma, and Radiological Engineering(NPRE)";
-      }else if(data[i] == 14){
-        toret = toret + "Systems Engineering and design"        
+    }else if(data[i] === 14){
+        toret = toret + "Systems Engineering and design"
       }
 
-      if(i != data.length - 1){
+      if(i !== data.length - 1){
         toret = toret + " or "
-      }   
+      }
     }
     return toret
 
@@ -104,37 +113,52 @@ class ResearchDetail extends Component {
 
   standingSelect(data){
 
-    if(data == undefined)
+    if(data === undefined)
       return "";
-    console.log(data)
     var toret = ""
     for(var i = 0; i < data.length; i++){
-      console.log(data[i])
-      if(data[i] == 0){
+      if(data[i] === 0){
         toret = toret + "Freshman";
-      }else if(data[i] == 1){
+    }else if(data[i] === 1){
         toret = toret +  "Sophomore";
-      }else if(data[i] == 2){
+    }else if(data[i] === 2){
         toret = toret +  "Junior";
       }else toret = toret + "Senior"
 
-      if(i != data.length - 1){
+      if(i !== data.length - 1){
         toret = toret + " or "
-      }   
-      console.log(toret)
+      }
     }
     return toret
 
   }
 
-    render(){
-        let loggedIn = false, userId, isStudent;
-        if(typeof this.props.location.state != "undefined"){
-            loggedIn = this.props.location.state.loggedIn;
-            userId = this.props.location.state.userId;
-            isStudent = this.props.location.state.isStudent;
-        }
+  // For the back button
+  goBack = () => {
+      if(typeof this.props.history != "undefined"){
+          this.props.history.goBack();
+      }
+  }
 
+  //TODO:For the save button
+  savePost = () => {
+
+  }
+
+    render(){
+        const {loggedIn, userId, isStudent} = this.state;
+
+        let saveButton;
+        if(loggedIn && isStudent){
+            saveButton =
+            <div className="col-lg-4">
+              <div className="row">
+                <div className="col-6">
+                  <button className="btn btn-block btn-light btn-md" onClick={this.savePost}><span className="icon-heart-o mr-2 text-danger"></span>Save Job</button>
+                </div>
+              </div>
+            </div>;
+        }
 
         return (
 
@@ -164,8 +188,7 @@ class ResearchDetail extends Component {
                       <div className="container">
                          <div className="row mb-5">
                              <div className="col-lg-2 mb-4 mb-lg-0">
-                             <Link to={{pathname:"/research-listing", state:{loggedIn:loggedIn, userId:userId, isStudent:isStudent}}} className="btn btn-block btn-primary btn-md"><span className="icon-keyboard_arrow_left mr-2"></span>Back</Link>
-                             </div>
+                                 <button className="btn btn-block btn-primary btn-md" onClick={this.goBack}><span className="icon-keyboard_arrow_left mr-2"></span>Back</button>                             </div>
                          </div>
                         <div className="row align-items-center mb-5">
                           <div className="col-lg-8 mb-4 mb-lg-0">
@@ -173,20 +196,14 @@ class ResearchDetail extends Component {
                               <div>
                                 <h2>{this.state.retval.jobName}</h2>
                                 <div>
-                                  <span className="m-2"><span className="icon-briefcase mr-2"></span><span>{this.typeSelect(this.state.retval.type)}</span></span>                          
+                                  <span className="m-2"><span className="icon-briefcase mr-2"></span><span>{this.typeSelect(this.state.retval.type)}</span></span>
                                   <span className="ml-0 mr-2 mb-2"><span className="icon-money mr-2"></span>{this.salarySelect(this.state.retval.salary)}</span>
                                   <span className="m-2"><span className="icon-room mr-2"></span>Champaign</span>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div className="col-lg-4">
-                            <div className="row">
-                              <div className="col-6">
-                                <button className="btn btn-block btn-light btn-md"><span className="icon-heart-o mr-2 text-danger"></span>Save Job</button>
-                              </div>
-                            </div>
-                          </div>
+                          {saveButton}
                         </div>
                         <div className="row">
                           <div className="col-lg-8">
@@ -206,7 +223,7 @@ class ResearchDetail extends Component {
                             <div className="mb-5">
                               <h3 className="h5 d-flex align-items-center mb-4 text-primary"><span className="icon-turned_in mr-3"></span>Contact Info</h3>
                               <ul className="list-unstyled m-0 p-0">
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Contact Name: {this.state.retval.contactName}</span></li>                         
+                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Contact Name: {this.state.retval.contactName}</span></li>
                                 <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Conatct Email: {this.state.retval.contactEmail}</span></li>
                               </ul>
                             </div>
@@ -216,10 +233,10 @@ class ResearchDetail extends Component {
                             <div className="bg-light p-3 border rounded mb-4">
                               <h3 className="text-primary  mt-3 h5 pl-3 mb-3 ">Job Summary</h3>
                               <ul className="list-unstyled pl-3 mb-0">
-                                <li className="mb-2"><strong className="text-black">Term:</strong> {this.termSelect(this.state.retval.term)}</li>                                
+                                <li className="mb-2"><strong className="text-black">Term:</strong> {this.termSelect(this.state.retval.term)}</li>
                                 <li className="mb-2"><strong className="text-black">Salary:</strong> {this.salarySelect(this.state.retval.salary)}</li>
-                                <li className="mb-2"><strong className="text-black">Type:</strong> {this.typeSelect(this.state.retval.type)}</li>                               
-                                <li className="mb-2"><strong className="text-black">Published on:</strong> {this.state.retval.dateCreated}</li>                              
+                                <li className="mb-2"><strong className="text-black">Type:</strong> {this.typeSelect(this.state.retval.type)}</li>
+                                <li className="mb-2"><strong className="text-black">Published on:</strong> {this.state.retval.dateCreated}</li>
                               </ul>
                             </div>
                           </div>

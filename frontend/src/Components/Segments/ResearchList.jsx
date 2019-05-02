@@ -3,6 +3,14 @@ import { Link } from 'react-router-dom';
 
 
 class ResearchList extends Component{
+    trimDescrp = (str) => {
+        const maxLength = 160;
+        if(maxLength < str.length){
+            return str.substring(0, maxLength) + "...";
+        } else {
+            return str;
+        }
+    }
     render(){
         const {postList, loggedIn, userId, isStudent} = this.props;
         return (
@@ -14,7 +22,7 @@ class ResearchList extends Component{
                       <div className="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
                         <div className="job-listing-position custom-width w-50 mb-3 mb-sm-0">
                           <h2>{post.jobName}</h2>
-                          <strong>{post.description}</strong>
+                          <strong>{this.trimDescrp(post.description)}</strong>
                         </div>
                         <div className="job-listing-location mb-3 mb-sm-0 custom-width w-25">
                             <span className="icon-contact_mail"></span>{post.contactName}

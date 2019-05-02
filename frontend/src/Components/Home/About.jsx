@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
 import axios from 'axios';
@@ -21,7 +20,7 @@ class About extends Component {
         )
     }
   render() {
-      const {userCount, postCount} = this.state;
+      const {postCount} = this.state;
       let loggedIn = false, userId, isStudent;
       if(typeof this.props.location.state != "undefined"){
           loggedIn = this.props.location.state.loggedIn;

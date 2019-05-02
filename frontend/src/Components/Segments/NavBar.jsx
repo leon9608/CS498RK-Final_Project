@@ -64,6 +64,16 @@ class NavBar extends Component{
         }
 
         return (
+            <div>
+            <div className="site-mobile-menu site-navbar-target">
+                <div className="site-mobile-menu-header">
+                    <div className="site-mobile-menu-close mt-3">
+                        <span className="icon-close2 js-menu-toggle"></span>
+                    </div>
+                </div>
+                <div className="site-mobile-menu-body"></div>
+            </div>
+
             <header className="site-navbar mt-3">
                 <div className="container-fluid">
                     <div className="row align-items-center">
@@ -81,6 +91,7 @@ class NavBar extends Component{
                     </div>
                 </div>
             </header>
+            </div>
         );
     }
 }

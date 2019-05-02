@@ -1,20 +1,32 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
 import ResearchList from '../Segments/ResearchList.jsx';
 
 class SearchResultListing extends Component {
     state = {
-        postList : this.props.location.state.postList
+        postList : [],
+        loggedIn: false,
+        userId: "",
+        isStudent: false
     };
 
-    render(){
-        let loggedIn = false, userId, isStudent;
+    componentDidMount(){
         if(typeof this.props.location.state != "undefined"){
-            loggedIn = this.props.location.state.loggedIn;
-            userId = this.props.location.state.userId;
-            isStudent = this.props.location.state.isStudent;
-        }
+            this.setState({postList:this.props.location.state.postList,
+                        loggedIn: this.props.location.state.loggedIn,
+                        userId: this.props.location.state.userId,
+                        isStudent: this.props.location.state.isStudent});
+            }else {
+                this.props.history.push({
+                pathname: '/'
+                });
+            }
+    }
+
+    render(){
+        const {loggedIn, userId, isStudent} = this.state;
 
         return(
             <div className="site-wrap">
@@ -44,6 +56,12 @@ class SearchResultListing extends Component {
 
             <section className="site-section" id="next">
               <div className="container">
+
+                  <div className="row mb-5">
+                      <div className="col-lg-2 mb-4 mb-lg-0">
+                      <Link to={{pathname:"/", state:{loggedIn:loggedIn, userId:userId, isStudent:isStudent}}} className="btn btn-block btn-primary btn-md"><span className="icon-keyboard_arrow_left mr-2"></span>Back</Link>
+                      </div>
+                  </div>
 
                   <ResearchList postList={this.state.postList} loggedIn={loggedIn} userId={userId} isStudent={isStudent}/>
 
