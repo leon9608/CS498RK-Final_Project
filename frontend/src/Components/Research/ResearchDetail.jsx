@@ -171,6 +171,7 @@ class ResearchDetail extends Component {
               this.setState({hasPost: false});
               swal({
                   icon: "success",
+                  title: "Success!"
               });
               this.goBack();
           }

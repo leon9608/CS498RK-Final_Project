@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 import Footer from '../Segments/Footer.jsx';
 
@@ -39,6 +40,10 @@ class Register extends Component {
             axios.post(createApi, {isStudent, name, email, password})
             .then((res) => {
                 if(res.status === 201){
+                    swal({
+                        icon: "success",
+                        title: "Successfully Register!"
+                    });
                     this.props.history.push({
                         pathname: '/',
                         state: {loggedIn: true,
@@ -157,7 +162,7 @@ class Register extends Component {
                                             <label className="text-black" htmlFor="type">Account Type</label>
                                         </div>
                                         <div className="form-check form-check-inline">
-                                            <input className="form-check-input" type="radio" name="typeRadios" id="undergrad"/>
+                                            <input className="form-check-input" type="radio" name="typeRadios" id="undergrad" checked/>
                                             <label className="form-check-label" htmlFor="undergrad">Undergrad Student</label>
                                         </div>
                                         <div className="form-check form-check-inline">

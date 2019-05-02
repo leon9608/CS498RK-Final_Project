@@ -76,6 +76,7 @@ class PostResearch extends Component {
             if(res.status === 201){
                 swal({
                     icon: "success",
+                    title: "Success!"
                 });
                 this.goBack();
             }

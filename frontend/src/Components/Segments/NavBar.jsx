@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
 
 class NavBar extends Component{
+
+    loggedOut = () => {
+        swal({
+            icon: "success",
+            title: "Logged Out!"
+        });
+    }
 
     render(){
         const loggedIn = this.props.loggedIn;

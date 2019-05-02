@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 import Footer from '../Segments/Footer.jsx';
 
@@ -28,6 +29,10 @@ class Login extends Component {
         axios.post(signApi, {email, password})
             .then((res) => {
                 if(res.status === 200){
+                    swal({
+                        icon: "success",
+                        title: "Welcome Back!"
+                    });
                     this.props.history.push({
                         pathname: '/',
                         state: {loggedIn: true,
