@@ -1,12 +1,30 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Pagination from '../Segments/Pagination.jsx';
 
 
 class ResearchList extends Component{
-    state = {
-        userPostList : []
+
+    constructor(props){
+
+        super(props)
+        this.state = {
+            userPostList : [],
+            pageOfItems: []
+        }
+
+        this.onChangePage = this.onChangePage.bind(this);
+
     }
+
+    onChangePage(pageOfItems) {
+
+        this.setState({ pageOfItems: pageOfItems });
+        
+    }
+
+
     componentDidMount(){
         if(typeof this.props.userId !== "undefined" && this.props.userId !== ""){
             const id = this.props.userId;
@@ -34,11 +52,14 @@ class ResearchList extends Component{
             return str;
         }
     }
+
+
     render(){
         const {postList, loggedIn, userId, isStudent} = this.props;
         return (
+            <div>
             <ul className="job-listings mb-5">
-                {postList.map((post,idx) =>
+                {(this.state.pageOfItems || []).map((post,idx) =>
                     <li className="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" key={idx}>
                         <Link to={{pathname:"/research-detail", state:{loggedIn:loggedIn, userId:userId, isStudent:isStudent, postid: post._id, userPostList:this.state.userPostList}}}></Link>
 
@@ -56,8 +77,12 @@ class ResearchList extends Component{
                       </div>
                     </li>
                 )}
+
             </ul>
+             <Pagination items={postList} onChangePage={this.onChangePage} />
+            </div>
         );
+
     }
 }
 export default ResearchList
