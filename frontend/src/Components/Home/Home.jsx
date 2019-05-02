@@ -82,14 +82,14 @@ class Home extends Component {
                             </div>
                             <div className="row mb-5">
                               <div className="col-sm-3">
-                                <select className="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Type">
+                                <select className="form-control" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Type">
                                     <option>Grader/Class Assistant</option>
                                     <option>User Study</option>
                                     <option>Research Assistant</option>
                                 </select>
                               </div>
                               <div className="col-sm-3">
-                                <select className="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Your Major">
+                                <select className="form-control" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Your Major">
                                   <option>Aerospace Engineering</option>
                                   <option>Agricultural and Biological engineering</option>
                                   <option>Bioengineering</option>
@@ -109,14 +109,14 @@ class Home extends Component {
                               </div>
 
                               <div className="col-sm-3">
-                                <select className="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Salary">
-                                  <option> 0 - 10$/hour </option>
-                                  <option> 11 - 15$/hour</option>
-                                  <option> 15$+/hour</option>
+                                <select className="form-control" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select Salary">
+                                  <option> $0~10/hr </option>
+                                  <option> $11~15/hr</option>
+                                  <option> $15/hr</option>
                                 </select>
                               </div>
                               <div className="col-sm-3">
-                                <select className="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Class Standing">
+                                <select className="form-control" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Class Standing">
                                   <option> Freshman </option>
                                   <option> Sophomore</option>
                                   <option> Junior </option>
