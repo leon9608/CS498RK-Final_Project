@@ -2,7 +2,6 @@
 
 TODO List:
 
-1. Implement Search
 2. Implement post list pagination
 3. Add user profile page and implement favorite function
 4. Make /create-research as a protected link
