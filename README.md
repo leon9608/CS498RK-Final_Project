@@ -3,9 +3,6 @@
 TODO List:
 
 2. Implement post list pagination
-3. Add user profile page and implement favorite function
-4. Make /create-research as a protected link
-5. Implement frontend and backend for updating user?
 
 Home.jsx:
 	<br>2. Fix responsive menu to have correct link, for all of the pages
