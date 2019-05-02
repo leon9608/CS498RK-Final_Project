@@ -9,9 +9,15 @@ class ResearchDetail extends Component {
   constructor(props){
       super();
       this.state = {
-          retval : ""
+          retval : "",
+          major: [],
+          term: 0,
+          type:0,
+          salary: 0,
+          standing: []
       };
   }
+
 
   componentDidMount(){
       const url = 'http://localhost:4000/api/posts/' + this.props.location.state.postid;
@@ -19,9 +25,114 @@ class ResearchDetail extends Component {
       axios.get(url).then(
           res => {
               console.log(res.data.data)
+              var major = [];
+              var term = "happy";
               this.setState({retval: res.data.data});
           }
       )
+  }
+  termSelect(data){
+
+    if(data == undefined)
+      return "";
+    if(data == 0){
+      return "Spring";
+    }else if(data == 1){
+      return "Summer";
+    }else return "Fall";
+
+  }
+  salarySelect(data){
+    if(data == undefined)
+      return "";
+    if(data == 0){
+      return "0~10 /hr";
+    }else if(data == 1){
+      return "11~15 /hr";
+    }else return "15+ /hr";
+
+  }
+
+  typeSelect(data){
+    if(data == undefined)
+      return "";
+    if(data == 0){
+      return "Grader/Class Assistant";
+    }else if(data == 1){
+      return "User study";
+    }else return "Research Assistant";
+  }
+
+  majorSelect(data){
+    if(data == undefined)
+      return "";
+    console.log(data)
+    var toret = ""
+    for(var i = 0; i < data.length; i++){
+      console.log(data[i])
+      if(data[i] == 0){
+        toret = toret + "Aerospace Engineering";
+      }else if(data[i] == 1){
+        toret = toret +  "Agricultural and Biological engineering";
+      }else if(data[i] == 2){
+        toret = toret +  "Bioengineering";
+      }else if(data[i] == 3){
+        toret = toret + "Chemical & Biomolecular engineering"        
+      }else if(data[i] == 4){
+        toret = toret +  "Civil and environmental engineering";
+      }else if(data[i] == 5){
+        toret = toret +  "Computer engineering";
+      }else if(data[i] == 6){
+        toret = toret + "Computer Science"        
+      }else if(data[i] == 7){
+        toret = toret +  "Electrical Engineering";
+      }else if(data[i] == 8){
+        toret = toret + "Engineering Mechanics"        
+      }else if(data[i] == 9){
+        toret = toret +  " Engineering Physics";
+      }else if(data[i] == 10){
+        toret = toret +  "Industrial Engineering";
+      }else if(data[i] == 11){
+        toret = toret + "Materials Science and Engineering"        
+      }else if(data[i] == 12){
+        toret = toret +  "Mechanical Engineering";
+      }else if(data[i] == 13){
+        toret = toret +  "Nuclear, Plasma, and Radiological Engineering(NPRE)";
+      }else if(data[i] == 14){
+        toret = toret + "Systems Engineering and design"        
+      }
+
+      if(i != data.length - 1){
+        toret = toret + " or "
+      }   
+    }
+    return toret
+
+  }
+
+  standingSelect(data){
+
+    if(data == undefined)
+      return "";
+    console.log(data)
+    var toret = ""
+    for(var i = 0; i < data.length; i++){
+      console.log(data[i])
+      if(data[i] == 0){
+        toret = toret + "Freshman";
+      }else if(data[i] == 1){
+        toret = toret +  "Sophomore";
+      }else if(data[i] == 2){
+        toret = toret +  "Junior";
+      }else toret = toret + "Senior"
+
+      if(i != data.length - 1){
+        toret = toret + " or "
+      }   
+      console.log(toret)
+    }
+    return toret
+
   }
 
     render(){
@@ -31,7 +142,10 @@ class ResearchDetail extends Component {
             userId = this.props.location.state.userId;
             isStudent = this.props.location.state.isStudent;
         }
+
+
         return (
+
             <div className="site-wrap">
                     <div className="site-mobile-menu site-navbar-target">
                         <div className="site-mobile-menu-header">
@@ -67,9 +181,9 @@ class ResearchDetail extends Component {
                               <div>
                                 <h2>{this.state.retval.jobName}</h2>
                                 <div>
-                                  <span className="ml-0 mr-2 mb-2"><span className="icon-briefcase mr-2"></span>Puma</span>
-                                  <span className="m-2"><span className="icon-room mr-2"></span>New York City</span>
-                                  <span className="m-2"><span className="icon-clock-o mr-2"></span><span className="text-primary">Full Time</span></span>
+                                  <span className="m-2"><span className="icon-briefcase mr-2"></span><span>{this.typeSelect(this.state.retval.type)}</span></span>                          
+                                  <span className="ml-0 mr-2 mb-2"><span className="icon-money mr-2"></span>{this.salarySelect(this.state.retval.salary)}</span>
+                                  <span className="m-2"><span className="icon-room mr-2"></span>Champaign</span>
                                 </div>
                               </div>
                             </div>
@@ -91,11 +205,9 @@ class ResearchDetail extends Component {
                             <div className="mb-5">
                               <h3 className="h5 d-flex align-items-center mb-4 text-primary"><span className="icon-rocket mr-3"></span>Requirement</h3>
                               <ul className="list-unstyled m-0 p-0">
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Necessitatibus quibusdam facilis</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Velit unde aliquam et voluptas reiciendis n Velit unde aliquam et voluptas reiciendis non sapiente labore</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Commodi quae ipsum quas est itaque</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Deleniti asperiores blanditiis nihil quia officiis dolor</span></li>
+                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Major: {this.majorSelect(this.state.retval.major)}</span></li>
+                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Standing: {this.standingSelect(this.state.retval.standing)}</span></li>
+
                               </ul>
                             </div>
 
@@ -112,11 +224,9 @@ class ResearchDetail extends Component {
                             <div className="bg-light p-3 border rounded mb-4">
                               <h3 className="text-primary  mt-3 h5 pl-3 mb-3 ">Job Summary</h3>
                               <ul className="list-unstyled pl-3 mb-0">
-                                <li className="mb-2"><strong className="text-black">Major:</strong> {this.state.retval.major}</li>                               
-                                <li className="mb-2"><strong className="text-black">Term:</strong> {this.state.retval.term}</li>                                
-                                <li className="mb-2"><strong className="text-black">Salary:</strong> {this.state.retval.salary}</li>
-                                <li className="mb-2"><strong className="text-black">Type:</strong> {this.state.retval.type}</li>                               
-                                <li className="mb-2"><strong className="text-black">Employment Status:</strong> Part-time</li>
+                                <li className="mb-2"><strong className="text-black">Term:</strong> {this.termSelect(this.state.retval.term)}</li>                                
+                                <li className="mb-2"><strong className="text-black">Salary:</strong> {this.salarySelect(this.state.retval.salary)}</li>
+                                <li className="mb-2"><strong className="text-black">Type:</strong> {this.typeSelect(this.state.retval.type)}</li>                               
                                 <li className="mb-2"><strong className="text-black">Published on:</strong> {this.state.retval.dateCreated}</li>                              
                               </ul>
                             </div>

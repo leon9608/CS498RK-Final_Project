@@ -62,7 +62,7 @@ class PostResearch extends Component {
             if(res.status === 201){
                 this.props.history.push({
                     pathname: "/research-detail",
-                    state: {loggedIn: true}
+                    state: {loggedIn: true, postid: res.data.data._id}
                 });
             }
         }).catch((err) => {
