@@ -974,7 +974,9 @@ h1, h2, h3, h4 {
     border-color: #41B3A3; }
 
 .border-width-2 {
-  border-width: 2px !important; }
+  border-width: 2px !important; 
+  margin: 5px;
+    }
 
 .btn-md {
   padding: 12px 20px; }
@@ -1388,8 +1390,9 @@ h1, h2, h3, h4 {
 
 .filters .btn {
   border-color: transparent;
-  font-size: .8rem;
+  font-size: 1.0rem;
   margin: 5px;
+  margin-top: 2%;
   background: rgba(52, 58, 64, 0.05);
   color: #343a40;
   text-transform: uppercase; }
@@ -1683,3 +1686,28 @@ h1, h2, h3, h4 {
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); }
+  
+  .padding-top-btn{
+  transform: translateY(40%);
+  }
+
+.move-up-slightly{
+	transform: translateY(-10%);
+}
+
+.btn-indicator{
+  border-color: transparent;
+  font-size: 1.0rem;
+  margin: 5px;
+  margin-top: 2%;
+  background: rgba(52, 58, 64, 0.05);
+  color: #343a40;
+  text-transform: uppercase; }
+  .btn-indicator btn:hover, .btn-indicator btn:focus, .btn-indicator btn:active {
+    border-color: transparent !important;
+    background: rgba(52, 58, 64, 0.3) !important;
+    color: #000; }
+  .btn-indicator btn.active {
+    background: #000 !important;
+    color: #fff;
+    border-color: #000 !important; }
