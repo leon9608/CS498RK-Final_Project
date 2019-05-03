@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
 import axios from 'axios';
+import serverUrl from '../../config.js'
 
 class About extends Component {
     constructor(){
@@ -12,7 +13,7 @@ class About extends Component {
     }
 
     componentDidMount(){
-        const postListApi = 'http://localhost:4000/api/posts';
+        const postListApi = `http://${serverUrl}:4000/api/posts`;
         axios.get(postListApi).then(
             res => {
                 this.setState({postCount: res.data.data.length});

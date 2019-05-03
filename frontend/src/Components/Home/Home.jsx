@@ -5,6 +5,7 @@ import axios from 'axios';
 import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
 import ResearchList from '../Segments/ResearchList.jsx';
+import serverUrl from '../../config.js'
 
 class Home extends Component {
     constructor(){
@@ -24,7 +25,7 @@ class Home extends Component {
     }
 
   componentDidMount(){
-      const postListApi = 'http://localhost:4000/api/posts';
+      const postListApi = `http://${serverUrl}:4000/api/posts`;
       axios.get(postListApi).then(
           res => {
               this.setState({postList: res.data.data});
@@ -52,7 +53,7 @@ class Home extends Component {
       e.preventDefault();
 
       const {loggedIn, userId, isStudent, searchText, type, major, salary, standing } = this.state;
-      const getPostApi = 'http://localhost:4000/api/posts';
+      const getPostApi = `http://${serverUrl}:4000/api/posts`;
 
       let whereClause = `{`, hasWhere = false;
       if(searchText !== ""){

@@ -3,6 +3,7 @@ import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
 import axios from 'axios';
 import swal from 'sweetalert';
+import serverUrl from '../../config.js'
 
 
 class ResearchDetail extends Component {
@@ -21,7 +22,7 @@ class ResearchDetail extends Component {
 
   componentDidMount(){
       if(typeof this.props.location.state !== "undefined"){
-          const url = 'http://localhost:4000/api/posts/' + this.props.location.state.postid;
+          const url = `http://${serverUrl}:4000/api/posts/` + this.props.location.state.postid;
 
           axios.get(url).then(
               res => {
@@ -154,7 +155,7 @@ class ResearchDetail extends Component {
   savePost = () => {
       const userId = this.state.userId, postId = this.state.retval._id;
       const hasPost = this.state.hasPost;
-      const favoriteUrl = 'http://localhost:4000/api/user/favoriteUpdate';
+      const favoriteUrl = `http://${serverUrl}:4000/api/user/favoriteUpdate`;
       axios.put(favoriteUrl, {userId, postId}).then(
           res => {
               this.setState({hasPost: !hasPost});
@@ -165,7 +166,7 @@ class ResearchDetail extends Component {
 
   //TODO: for the delete button
   deletePost = () => {
-      const deleteUrl = 'http://localhost:4000/api/posts/delete/'+this.state.retval._id;
+      const deleteUrl = `http://${serverUrl}:4000/api/posts/delete/`+this.state.retval._id;
       axios.delete(deleteUrl).then(
           res => {
               this.setState({hasPost: false});
