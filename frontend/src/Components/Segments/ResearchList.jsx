@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Pagination from '../Segments/Pagination.jsx';
+import serverUrl from '../../config.js'
 
 
 class ResearchList extends Component{
@@ -28,7 +29,7 @@ class ResearchList extends Component{
     componentDidMount(){
         if(typeof this.props.userId !== "undefined" && this.props.userId !== ""){
             const id = this.props.userId;
-            const postListByUserApi = "http://localhost:4000/api/user/postList/" + id;
+            const postListByUserApi = `http://${serverUrl}:4000/api/user/postList/` + id;
             const params = {
                 select: {"_id":"1"},
             }
@@ -72,7 +73,7 @@ class ResearchList extends Component{
                             <span className="icon-contact_mail"></span>{post.contactName}
                         </div>
                         <div className="job-listing-meta">
-                            <span className="icon-date_range"></span>{post.dateCreated}
+                            <span className="icon-date_range"></span>{new Date(post.dateCreated).toDateString()}
                         </div>
                       </div>
                     </li>

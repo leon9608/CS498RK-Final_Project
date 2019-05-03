@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import swal from 'sweetalert';
-
 import Footer from '../Segments/Footer.jsx';
+import serverUrl from '../../config.js'
 
 
 class Login extends Component {
@@ -25,7 +25,7 @@ class Login extends Component {
         e.preventDefault();
 
         const { email, password} = this.state;
-        const signApi = 'http://localhost:4000/api/user/signIn';
+        const signApi = `http://${serverUrl}:4000/api/user/signIn`;
         axios.post(signApi, {email, password})
             .then((res) => {
                 if(res.status === 200){

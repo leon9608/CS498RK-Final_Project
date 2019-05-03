@@ -3,6 +3,7 @@ import axios from 'axios';
 import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
 import swal from 'sweetalert';
+import serverUrl from '../../config.js'
 
 class PostResearch extends Component {
     constructor(){
@@ -69,7 +70,7 @@ class PostResearch extends Component {
 
 
         const {userId, jobName, description, type, salary, major, standing, term, contactName, contactEmail} = this.state;
-        const postAddApi = 'http://localhost:4000/api/posts/add';
+        const postAddApi = `http://${serverUrl}:4000/api/posts/add`;
 
         axios.post(postAddApi, {userId, jobName, description, type, salary, major, standing, term, contactName, contactEmail})
         .then((res)=>{

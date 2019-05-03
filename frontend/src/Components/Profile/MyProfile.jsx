@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
 import ResearchList from '../Segments/ResearchList.jsx';
+import serverUrl from '../../config.js'
 
 import axios from 'axios';
 
@@ -20,14 +21,14 @@ class MyProfile extends Component {
         if(typeof this.props.location.state !== "undefined"){
 
             const id = this.props.location.state.userId;
-            const postListByUserApi = "http://localhost:4000/api/user/postList/" + id;
+            const postListByUserApi = `http://${serverUrl}:4000/api/user/postList/` + id;
             axios.get(postListByUserApi).then(
                     res => {
                         this.setState({postList:res.data.data});
                         }
                     );
 
-            const userDetailApi = "http://localhost:4000/api/user/" + id;
+            const userDetailApi = `http://${serverUrl}:4000/api/user/` + id;
             axios.get(userDetailApi).then(
                     res => {
                         this.setState({userName:res.data.data.name,

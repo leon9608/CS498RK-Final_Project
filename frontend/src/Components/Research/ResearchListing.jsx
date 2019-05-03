@@ -3,6 +3,7 @@ import Footer from '../Segments/Footer.jsx';
 import NavBar from '../Segments/NavBar.jsx';
 import ResearchList from '../Segments/ResearchList.jsx';
 import axios from 'axios';
+import serverUrl from '../../config.js'
 
 
 class ResearchListing extends Component {
@@ -13,7 +14,7 @@ class ResearchListing extends Component {
         };
     }
   componentDidMount(){
-      const postListApi = 'http://localhost:4000/api/posts';
+      const postListApi = `http://${serverUrl}:4000/api/posts`;
       axios.get(postListApi).then(
           res => {
               this.setState({postList: res.data.data});
