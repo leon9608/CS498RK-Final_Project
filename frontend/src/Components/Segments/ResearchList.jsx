@@ -72,7 +72,7 @@ class ResearchList extends Component{
                             <span className="icon-contact_mail"></span>{post.contactName}
                         </div>
                         <div className="job-listing-meta">
-                            <span className="icon-date_range"></span>{post.dateCreated}
+                            <span className="icon-date_range"></span>{new Date(post.dateCreated).toDateString()}
                         </div>
                       </div>
                     </li>

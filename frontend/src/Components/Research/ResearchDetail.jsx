@@ -294,7 +294,7 @@ class ResearchDetail extends Component {
                                 <li className="mb-2"><strong className="text-black">Term:</strong> {this.termSelect(this.state.retval.term)}</li>
                                 <li className="mb-2"><strong className="text-black">Salary:</strong> {this.salarySelect(this.state.retval.salary)}</li>
                                 <li className="mb-2"><strong className="text-black">Type:</strong> {this.typeSelect(this.state.retval.type)}</li>
-                                <li className="mb-2"><strong className="text-black">Published on:</strong> {this.state.retval.dateCreated}</li>
+                                <li className="mb-2"><strong className="text-black">Published on:</strong> {new Date(this.state.retval.dateCreated).toDateString()}</li>
                               </ul>
                             </div>
                           </div>
