@@ -142,7 +142,7 @@ class About extends Component {
                 <div className="col-md-6">
                   <h3>Zhilin Zhang</h3>
                   <p className="text-muted">Front-End Developer</p>
-                  <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
+                  <p>Front end debugging, data collection and testing.</p>
                 </div>
             </div>
 
