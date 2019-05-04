@@ -1,51 +1,38 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Footer from '../Segments/Footer.jsx';
+import NavBar from '../Segments/NavBar.jsx';
+import axios from 'axios';
+import serverUrl from '../../config.js'
 
-//TODO: 1. change stats to dynamically display data from database
-// 2. Change the description for our team
 class About extends Component {
+    constructor(){
+        super();
+        this.state = {
+            postCount:0
+        }
+    }
+
+    componentDidMount(){
+        const postListApi = `http://${serverUrl}:4000/api/posts`;
+        axios.get(postListApi).then(
+            res => {
+                this.setState({postCount: res.data.data.length});
+            }
+        )
+    }
   render() {
+      const {postCount} = this.state;
+      let loggedIn = false, userId, isStudent;
+      if(typeof this.props.location.state != "undefined"){
+          loggedIn = this.props.location.state.loggedIn;
+          userId = this.props.location.state.userId;
+          isStudent = this.props.location.state.isStudent;
+      }
+
       return (
           <div className="site-wrap">
-              <div className="site-mobile-menu site-navbar-target">
-                <div className="site-mobile-menu-header">
-                  <div className="site-mobile-menu-close mt-3">
-                    <span className="icon-close2 js-menu-toggle"></span>
-                  </div>
-                </div>
-                <div className="site-mobile-menu-body"></div>
-              </div>
 
-              <header className="site-navbar mt-3">
-                  <div className="container-fluid">
-                      <div className="row align-items-center">
-                          <div className="site-logo col-6"><Link to="/">RESEARCHBOARD</Link></div>
-                          <nav className="mx-auto site-navigation">
-                              <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-                                  <li className="nav-link"><Link to="/">Home</Link></li>
-                                  <li className="nav-link"><Link to="/about" className="active">About</Link></li>
-                                  <li className="nav-link"><Link to="/research-listing">Recent Opportunities</Link></li>
-                              </ul>
-                          </nav>
-
-                          <div className="right-cta-menu text-right d-flex aligin-items-center col-6">
-                              <div className="ml-auto">
-                                  {/*<a href="post-job.html" className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-add"></span>Post a Job</a>*/}
-                                  <div className="btn-group" role="group">
-                                      <Link to="/login">
-                                          <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log In</button>
-                                      </Link>
-                                      <Link to="/register">
-                                          <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-person_add"></span>Sign Up</button>
-                                      </Link>
-                                  </div>
-                              </div>
-                              <Link to="#" className="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span className="icon-menu h3 m-0 p-0 mt-2"></span></Link>
-                          </div>
-                      </div>
-                  </div>
-              </header>
+              <NavBar loggedIn={loggedIn} isStudent={isStudent} userId={userId} curPage={1}/>
 
               <section className="section-hero overlay inner-page bg-image" style={{backgroundImage: "url('https://www.chula.ac.th/wp-content/uploads/2018/03/research-impact-hero-768x480.jpg')"}} id="home-section">
                 <div className="container">
@@ -65,17 +52,9 @@ class About extends Component {
                     </div>
                   </div>
                   <div className="row pb-0 block__19738 section-counter justify-content-center">
-
                     <div className="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
                       <div className="d-flex align-items-center justify-content-center mb-2">
-                        <strong className="number" data-number="1930">1930</strong>
-                      </div>
-                      <span className="caption">Students</span>
-                    </div>
-
-                    <div className="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-                      <div className="d-flex align-items-center justify-content-center mb-2">
-                        <strong className="number" data-number="54">54</strong>
+                        <strong className="number" data-number={postCount}>{postCount}</strong>
                       </div>
                       <span className="caption">Researchs Posted</span>
                     </div>
@@ -88,7 +67,7 @@ class About extends Component {
                 <div className="container">
                   <div className="row align-items-center">
                     <div className="col-lg-6 mb-5 mb-lg-0">
-                          <img src="http://illinoismarathon.com/wp-content/uploads/alma-mater-600x338.jpg" className="img-fluid img-shadow"/>
+                          <img src="http://illinoismarathon.com/wp-content/uploads/alma-mater-600x338.jpg" alt="alma mater" className="img-fluid img-shadow"/>
                     </div>
                     <div className="col-lg-5 ml-auto">
                       <h2 className="section-title mb-3">ResearchBoard For Undergraduate Students</h2>
@@ -103,7 +82,7 @@ class About extends Component {
                 <div className="container">
                   <div className="row align-items-center">
                     <div className="col-lg-6 mb-5 mb-lg-0 order-md-2">
-                        <img src="https://static1.squarespace.com/static/548b59b0e4b0c84e07f40b9d/548b6469e4b0ff83264132a3/56319d1ee4b05cc183adab82/1531275934314/DSC_0008_C.jpg?format=750w" className="img-fluid img-shadow"/>
+                        <img src="https://static1.squarespace.com/static/548b59b0e4b0c84e07f40b9d/548b6469e4b0ff83264132a3/56319d1ee4b05cc183adab82/1531275934314/DSC_0008_C.jpg?format=750w" alt="ECEB" className="img-fluid img-shadow"/>
                     </div>
                     <div className="col-lg-5 mr-auto order-md-1  mb-5 mb-lg-0">
                       <h2 className="section-title mb-3">ResearchBoard For Professors</h2>
@@ -127,27 +106,26 @@ class About extends Component {
                       <div className="col-md-6">
                         <h3>Jiaxuan Guo</h3>
                         <p className="text-muted">Full Stack Developer</p>
-                        <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
+                        <p>Overall developer incharge. <br/>Impplemented major website design and functionalities.</p>
                       </div>
 
                       <div className="col-md-6">
                         <h3>Yuyang Liu</h3>
                         <p className="text-muted">Full Stack Developer</p>
-                        <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
-                      </div>
+                        <p>Passionate web developer. <br/>Worked on backend implementations using Express and mongoDB. <br/>Worked on data collection.</p></div>
                   </div>
 
                 <div className="row mb-5">
                   <div className="col-md-6">
                     <h3>Jinyuan Li</h3>
                     <p className="text-muted">Front-End Developer</p>
-                    <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
+                    <p>Implement user-friendly and responsive user interface. </p>
                   </div>
 
                   <div className="col-md-6">
                     <h3>Yan Ye</h3>
                     <p className="text-muted">Front-End Developer</p>
-                    <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
+                    <p></p>
                   </div>
               </div>
 
@@ -155,7 +133,7 @@ class About extends Component {
                 <div className="col-md-6">
                   <h3>Zhilin Zhang</h3>
                   <p className="text-muted">Front-End Developer</p>
-                  <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
+                  <p>Front end debugging, data collection and testing.</p>
                 </div>
             </div>
 

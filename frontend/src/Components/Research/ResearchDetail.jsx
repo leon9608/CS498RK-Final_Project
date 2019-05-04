@@ -1,48 +1,229 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Footer from '../Segments/Footer.jsx';
+import NavBar from '../Segments/NavBar.jsx';
+import axios from 'axios';
+import swal from 'sweetalert';
+import serverUrl from '../../config.js'
+
 
 class ResearchDetail extends Component {
-    render(){
-        return (
-            <div className="site-wrap">
-                    <div className="site-mobile-menu site-navbar-target">
-                        <div className="site-mobile-menu-header">
-                            <div className="site-mobile-menu-close mt-3">
-                                <span className="icon-close2 js-menu-toggle"></span>
-                            </div>
-                        </div>
-                        <div className="site-mobile-menu-body"></div>
-                    </div>
-                    <header className="site-navbar mt-3">
-                        <div className="container-fluid">
-                            <div className="row align-items-center">
-                                <div className="site-logo col-6"><Link to="/">RESEARCHBOARD</Link></div>
-                                <nav className="mx-auto site-navigation">
-                                    <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-                                        <li className="nav-link"><Link to="/">Home</Link></li>
-                                        <li className="nav-link"><Link to="/about">About</Link></li>
-                                        <li className="nav-link"><Link to="/research-listing">Recent Opportunities</Link></li>
-                                    </ul>
-                                </nav>
+  constructor(props){
+      super();
+      this.state = {
+          retval : "",
+          loggedIn: false,
+          userId: "",
+          isStudent: false,
+          userPostList: [],
+          hasPost: false
+      };
+  }
 
-                                <div className="right-cta-menu text-right d-flex aligin-items-center col-6">
-                                    <div className="ml-auto">
-                                        {/*<a href="post-job.html" className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-add"></span>Post a Job</a>*/}
-                                        <div className="btn-group" role="group">
-                                            <Link to="/login">
-                                                <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log In</button>
-                                            </Link>
-                                            <Link to="/register">
-                                                <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-person_add"></span>Sign Up</button>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                    <Link to="#" className="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span className="icon-menu h3 m-0 p-0 mt-2"></span></Link>
-                                </div>
+
+  componentDidMount(){
+      if(typeof this.props.location.state !== "undefined"){
+          const url = `http://${serverUrl}:4000/api/posts/` + this.props.location.state.postid;
+
+          axios.get(url).then(
+              res => {
+                  this.setState({retval: res.data.data});
+              }
+          );
+
+          const boolVal = this.props.location.state.userPostList.includes(this.props.location.state.postid);
+          this.setState({loggedIn: this.props.location.state.loggedIn,
+                        userId: this.props.location.state.userId,
+                        isStudent: this.props.location.state.isStudent,
+                        userPostList: this.props.location.state.userPostList,
+                        hasPost: boolVal
+                    });
+
+
+      } else {
+          this.props.history.push({
+          pathname: '/'
+          });
+    }
+  }
+  termSelect(data){
+
+    if(data === undefined)
+      return "";
+    if(data === 0){
+      return "Spring";
+  }else if(data === 1){
+      return "Summer";
+    }else return "Fall";
+
+  }
+  salarySelect(data){
+    if(data === undefined)
+      return "";
+    if(data === 0){
+      return "0~10 /hr";
+  }else if(data === 1){
+      return "11~15 /hr";
+    }else return "15+ /hr";
+
+  }
+
+  typeSelect(data){
+    if(data === undefined)
+      return "";
+    if(data === 0){
+      return "Grader/Class Assistant";
+  }else if(data === 1){
+      return "User study";
+    }else return "Research Assistant";
+  }
+
+  majorSelect(data){
+    if(data === undefined)
+      return "";
+    var toret = ""
+    for(var i = 0; i < data.length; i++){
+      if(data[i] === 0){
+        toret = toret + "Aerospace Engineering";
+    }else if(data[i] === 1){
+        toret = toret +  "Agricultural and Biological engineering";
+    }else if(data[i] === 2){
+        toret = toret +  "Bioengineering";
+    }else if(data[i] === 3){
+        toret = toret + "Chemical & Biomolecular engineering"
+    }else if(data[i] === 4){
+        toret = toret +  "Civil and environmental engineering";
+    }else if(data[i] === 5){
+        toret = toret +  "Computer engineering";
+    }else if(data[i] === 6){
+        toret = toret + "Computer Science"
+    }else if(data[i] === 7){
+        toret = toret +  "Electrical Engineering";
+    }else if(data[i] === 8){
+        toret = toret + "Engineering Mechanics"
+    }else if(data[i] === 9){
+        toret = toret +  " Engineering Physics";
+    }else if(data[i] === 10){
+        toret = toret +  "Industrial Engineering";
+    }else if(data[i] === 11){
+        toret = toret + "Materials Science and Engineering"
+    }else if(data[i] === 12){
+        toret = toret +  "Mechanical Engineering";
+    }else if(data[i] === 13){
+        toret = toret +  "Nuclear, Plasma, and Radiological Engineering(NPRE)";
+    }else if(data[i] === 14){
+        toret = toret + "Systems Engineering and design"
+      }
+
+      if(i !== data.length - 1){
+        toret = toret + " / "
+      }
+    }
+    return toret
+
+  }
+
+  standingSelect(data){
+
+    if(data === undefined)
+      return "";
+    var toret = ""
+    for(var i = 0; i < data.length; i++){
+      if(data[i] === 0){
+        toret = toret + "Freshman";
+    }else if(data[i] === 1){
+        toret = toret +  "Sophomore";
+    }else if(data[i] === 2){
+        toret = toret +  "Junior";
+      }else toret = toret + "Senior"
+
+      if(i !== data.length - 1){
+        toret = toret + " / "
+      }
+    }
+    return toret
+
+  }
+
+  // For the back button
+  goBack = () => {
+      if(typeof this.props.history != "undefined"){
+          this.props.history.goBack();
+      }
+  }
+
+  //For the save button
+  savePost = () => {
+      const userId = this.state.userId, postId = this.state.retval._id;
+      const hasPost = this.state.hasPost;
+      const favoriteUrl = `http://${serverUrl}:4000/api/user/favoriteUpdate`;
+      axios.put(favoriteUrl, {userId, postId}).then(
+          res => {
+              this.setState({hasPost: !hasPost});
+          }
+      );
+
+  }
+
+  //for the delete button
+  deletePost = () => {
+      const deleteUrl = `http://${serverUrl}:4000/api/posts/delete/`+this.state.retval._id;
+      axios.delete(deleteUrl).then(
+          res => {
+              this.setState({hasPost: false});
+              swal({
+                  icon: "success",
+                  title: "Success!"
+              });
+              this.goBack();
+          }
+      )
+  }
+
+    render(){
+        const {loggedIn, userId, isStudent, hasPost} = this.state;
+
+        let saveButton;
+        if(loggedIn){
+            if(isStudent){
+                if(hasPost){
+                    saveButton =
+                    <div className="col-lg-4">
+                        <div className="row">
+                            <div className="col-6">
+                                <button className="btn btn-block btn-light btn-md" onClick={this.savePost}><span className="icon-heart mr-2 text-danger"></span>Unfavorite</button>
                             </div>
                         </div>
-                    </header>
+                    </div>;
+
+                } else {
+                saveButton =
+                <div className="col-lg-4">
+                    <div className="row">
+                        <div className="col-6">
+                            <button className="btn btn-block btn-light btn-md" onClick={this.savePost}><span className="icon-heart-o mr-2 text-danger"></span>Favorite</button>
+                        </div>
+                    </div>
+                </div>;
+            }
+            } else {
+                if(hasPost){
+                saveButton =
+                <div className="col-lg-4">
+                    <div className="row">
+                        <div className="col-6">
+                            <button className="btn btn-block btn-danger btn-md" onClick={this.deletePost}><span className="icon-delete mr-2 text-light"></span>Delete</button>
+                        </div>
+                    </div>
+                </div>;
+                }
+            }
+        }
+
+        return (
+
+            <div className="site-wrap">
+
+                    <NavBar loggedIn={loggedIn} isStudent={isStudent} userId={userId} curPage={-1}/>
 
                     <section className="section-hero overlay inner-page bg-image" style={{backgroundImage: "url('https://www.chula.ac.th/wp-content/uploads/2018/03/research-impact-hero-768x480.jpg')"}} id="home-section">
                       <div className="container">
@@ -58,56 +239,43 @@ class ResearchDetail extends Component {
                       <div className="container">
                          <div className="row mb-5">
                              <div className="col-lg-2 mb-4 mb-lg-0">
-                             <Link to="/research-listing" className="btn btn-block btn-primary btn-md"><span className="icon-keyboard_arrow_left mr-2"></span>Back</Link>
-                             </div>
+                                 <button className="btn btn-block btn-primary btn-md" onClick={this.goBack}><span className="icon-keyboard_arrow_left mr-2"></span>Back</button>                             </div>
                          </div>
                         <div className="row align-items-center mb-5">
                           <div className="col-lg-8 mb-4 mb-lg-0">
                             <div className="d-flex align-items-center">
                               <div>
-                                <h2>Product Designer</h2>
+                                <h2>{this.state.retval.jobName}</h2>
                                 <div>
-                                  <span className="ml-0 mr-2 mb-2"><span className="icon-briefcase mr-2"></span>Puma</span>
-                                  <span className="m-2"><span className="icon-room mr-2"></span>New York City</span>
-                                  <span className="m-2"><span className="icon-clock-o mr-2"></span><span class="text-primary">Full Time</span></span>
+                                  <span className="m-2"><span className="icon-briefcase mr-2"></span><span>{this.typeSelect(this.state.retval.type)}</span></span>
+                                  <span className="ml-0 mr-2 mb-2"><span className="icon-money mr-2"></span>{this.salarySelect(this.state.retval.salary)}</span>
+                                  <span className="m-2"><span className="icon-room mr-2"></span>Champaign</span>
                                 </div>
                               </div>
                             </div>
                           </div>
-                          <div className="col-lg-4">
-                            <div className="row">
-                              <div className="col-6">
-                                <a href="#" className="btn btn-block btn-light btn-md"><span className="icon-heart-o mr-2 text-danger"></span>Save Job</a>
-                              </div>
-                            </div>
-                          </div>
+                          {saveButton}
                         </div>
                         <div className="row">
                           <div className="col-lg-8">
                             <div className="mb-5">
                               <h3 className="h5 d-flex align-items-center mb-4 text-primary"><span className="icon-align-left mr-3"></span>Description</h3>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis illum fuga eveniet. Deleniti asperiores, commodi quae ipsum quas est itaque, ipsa, dolore beatae voluptates nemo blanditiis iste eius officia minus.</p>
-                              <p>Velit unde aliquam et voluptas reiciendis non sapiente labore, deleniti asperiores blanditiis nihil quia officiis dolor vero iste dolore vel molestiae saepe. Id nisi, consequuntur sunt impedit quidem, vitae mollitia!</p>
+                              <p>{this.state.retval.description}</p>
                             </div>
                             <div className="mb-5">
                               <h3 className="h5 d-flex align-items-center mb-4 text-primary"><span className="icon-rocket mr-3"></span>Requirement</h3>
                               <ul className="list-unstyled m-0 p-0">
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Necessitatibus quibusdam facilis</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Velit unde aliquam et voluptas reiciendis n Velit unde aliquam et voluptas reiciendis non sapiente labore</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Commodi quae ipsum quas est itaque</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Deleniti asperiores blanditiis nihil quia officiis dolor</span></li>
+                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Major: {this.majorSelect(this.state.retval.major)}</span></li>
+                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Standing: {this.standingSelect(this.state.retval.standing)}</span></li>
+
                               </ul>
                             </div>
 
                             <div className="mb-5">
-                              <h3 className="h5 d-flex align-items-center mb-4 text-primary"><span class="icon-turned_in mr-3"></span>Contact Info</h3>
+                              <h3 className="h5 d-flex align-items-center mb-4 text-primary"><span className="icon-turned_in mr-3"></span>Contact Info</h3>
                               <ul className="list-unstyled m-0 p-0">
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Necessitatibus quibusdam facilis</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Velit unde aliquam et voluptas reiciendis non sapiente labore</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Commodi quae ipsum quas est itaque</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit</span></li>
-                                <li className="d-flex align-items-start mb-2"><span className="icon-check_circle mr-2 text-muted"></span><span>Deleniti asperiores blanditiis nihil quia officiis dolor</span></li>
+                                <li className="d-flex align-items-start mb-2"><span className="icon-contacts mr-2 text-muted"></span><span>Contact Name: {this.state.retval.contactName}</span></li>
+                                <li className="d-flex align-items-start mb-2"><span className="icon-mail_outline mr-2 text-muted"></span><span>Conatct Email: {this.state.retval.contactEmail}</span></li>
                               </ul>
                             </div>
 
@@ -116,10 +284,10 @@ class ResearchDetail extends Component {
                             <div className="bg-light p-3 border rounded mb-4">
                               <h3 className="text-primary  mt-3 h5 pl-3 mb-3 ">Job Summary</h3>
                               <ul className="list-unstyled pl-3 mb-0">
-                                <li className="mb-2"><strong className="text-black">Published on:</strong> April 14, 2019</li>
-                                <li className="mb-2"><strong className="text-black">Employment Status:</strong> Full-time</li>
-                                <li className="mb-2"><strong className="text-black">Experience:</strong> 2 to 3 year(s)</li>
-                                <li className="mb-2"><strong className="text-black">Salary:</strong> $60k - $100k</li>
+                                <li className="mb-2"><strong className="text-black">Term:</strong> {this.termSelect(this.state.retval.term)}</li>
+                                <li className="mb-2"><strong className="text-black">Salary:</strong> {this.salarySelect(this.state.retval.salary)}</li>
+                                <li className="mb-2"><strong className="text-black">Type:</strong> {this.typeSelect(this.state.retval.type)}</li>
+                                <li className="mb-2"><strong className="text-black">Published on:</strong> {new Date(this.state.retval.dateCreated).toDateString()}</li>
                               </ul>
                             </div>
                           </div>

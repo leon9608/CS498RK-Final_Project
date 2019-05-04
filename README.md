@@ -1,5 +1,4 @@
 # CS498RK-Final_Project
-
 ## Project Description
 
 This is a College Research/ Intern/ Grader Opportunity Share Platform. Our motivation is to reduce this gap of information asymmetry, accelerate the process for both students and professors to find their match. 

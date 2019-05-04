@@ -1,51 +1,111 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Footer from '../Segments/Footer.jsx';
+import NavBar from '../Segments/NavBar.jsx';
+import swal from 'sweetalert';
+import serverUrl from '../../config.js'
 
 class PostResearch extends Component {
+    constructor(){
+        super();
+        this.state = {
+            userId: "",
+            jobName: "",
+            description: "",
+            type:0,
+            salary: 0,
+            major: [],
+            standing: [],
+            term: 0,
+            contactEmail: "",
+            contactName: "",
+            error: false,
+            loggedIn: false,
+            isStudent: false
+        };
+
+        this.onChange = this.onChange.bind(this);
+    }
+
+    onChange = (e) => {
+        if(e.target.name === "type" || e.target.name === "salary" || e.target.name === "term"){
+            this.setState({[e.target.name]: parseInt(e.target.value)});
+        } else {
+        this.setState({[e.target.name]: e.target.value});
+        }
+    }
+
+    onMultiSelectChange = (e) => {
+        var options = e.target.options;
+        var value = [];
+        for(var i = 0; i < options.length; i++){
+            if(options[i].selected){
+                value.push(parseInt(options[i].value));
+            }
+        }
+        this.setState({[e.target.name]:value});
+    }
+
+    componentDidMount(){
+        if(typeof this.props.location.state != "undefined"){
+            this.setState({userId:this.props.location.state.userId,
+                            loggedIn: this.props.location.state.loggedIn,
+                            isStudent: this.props.location.state.isStudent});
+        } else {
+            this.props.history.push({
+            pathname: '/'
+            });
+        }
+    }
+
+    // For the back button
+    goBack = () => {
+        if(typeof this.props.history != "undefined"){
+            this.props.history.goBack();
+        }
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault();
+
+
+        const {userId, jobName, description, type, salary, major, standing, term, contactName, contactEmail} = this.state;
+        const postAddApi = `http://${serverUrl}:4000/api/posts/add`;
+
+        axios.post(postAddApi, {userId, jobName, description, type, salary, major, standing, term, contactName, contactEmail})
+        .then((res)=>{
+            if(res.status === 201){
+                swal({
+                    icon: "success",
+                    title: "Success!"
+                });
+                this.goBack();
+            }
+        }).catch((err) => {
+            if(err.request){
+                this.setState({error:true});
+            }
+        });
+    }
+
     render(){
+        let errorMessage;
+        if(this.state.error){
+            errorMessage =
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                  Failed to create new post, please try again.
+                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>;
+
+        }
+        const { userId, jobName, description, type, salary, standing, term, contactEmail, contactName, loggedIn, isStudent } = this.state;
         return (
             <div className="site-wrap">
 
-                <div className="site-mobile-menu site-navbar-target">
-                  <div className="site-mobile-menu-header">
-                    <div className="site-mobile-menu-close mt-3">
-                      <span className="icon-close2 js-menu-toggle"></span>
-                    </div>
-                  </div>
-                  <div className="site-mobile-menu-body"></div>
-                </div>
 
-
-                <header className="site-navbar mt-3">
-                    <div className="container-fluid">
-                        <div className="row align-items-center">
-                            <div className="site-logo col-6"><Link to="/">RESEARCHBOARD</Link></div>
-                            <nav className="mx-auto site-navigation">
-                                <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-                                    <li className="nav-link"><Link to="/">Home</Link></li>
-                                    <li className="nav-link"><Link to="/about">About</Link></li>
-                                    <li className="nav-link"><Link to="/research-listing">Recent Opportunities</Link></li>
-                                </ul>
-                            </nav>
-
-                            <div className="right-cta-menu text-right d-flex aligin-items-center col-6">
-                                <div className="ml-auto">
-                                    {/*<a href="post-job.html" className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-add"></span>Post a Job</a>*/}
-                                    <div className="btn-group" role="group">
-                                        <Link to="/login">
-                                            <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-lock_outline"></span>Log In</button>
-                                        </Link>
-                                        <Link to="/register">
-                                            <button type="button" className="btn btn-primary border-width-2 d-none d-lg-inline-block"><span className="mr-2 icon-person_add"></span>Sign Up</button>
-                                        </Link>
-                                    </div>
-                                </div>
-                                <Link to="#" className="site-menu-toggle js-menu-toggle d-inline-block d-xl-none mt-lg-2 ml-3"><span className="icon-menu h3 m-0 p-0 mt-2"></span></Link>
-                            </div>
-                        </div>
-                    </div>
-                </header>
+                <NavBar loggedIn={loggedIn} isStudent={isStudent} userId={userId} curPage={-1}/>
 
 
                 <section className="section-hero overlay inner-page bg-image" style={{backgroundImage: "url('https://www.chula.ac.th/wp-content/uploads/2018/03/research-impact-hero-768x480.jpg')"}} id="home-section">
@@ -64,31 +124,31 @@ class PostResearch extends Component {
 
                     <div className="row mb-5">
                       <div className="col-lg-12">
-                        <form className="p-4 p-md-5 border rounded" method="post">
+                          {errorMessage}
+                        <form onSubmit={this.onSubmit} className="p-4 p-md-5 border rounded" method="post">
                           <h3 className="text-black mb-5 border-bottom pb-2">Job Details</h3>
                               <div className="form-group">
-                                <label htmlFor="job-title">Job Title</label>
-                                <input type="text" className="form-control" id="job-title" />
+                                <label htmlFor="jobName">Job Title</label>
+                                <input type="text" className="form-control" id="jobName" name="jobName" value={jobName} onChange={this.onChange}/>
                               </div>
 
                               <div className="form-group">
-                                <label for="description">Description</label>
-                                <textarea className="form-control" id="description"/>
+                                <label htmlFor="description">Description</label>
+                                <textarea className="form-control" id="description" name="description" value={description} onChange={this.onChange}/>
                               </div>
 
-
-                          <div className="form-group">
-                            <label htmlFor="type">Type</label>
-                            <select className="form-control border rounded" id="type" data-style="btn-black" data-width="100%" data-live-search="true" title="Select Job Type">
-                              <option>Grader/Class Assistant</option>
-                              <option>User Study</option>
-                              <option>Research Assistant</option>
-                            </select>
-                          </div>
+                              <div className="form-group">
+                                  <label htmlFor="type">Type</label>
+                                  <select className="form-control" id="type" name="type" value={type} onChange={this.onChange}>
+                                      <option value="0">Grader/Class Assistant</option>
+                                      <option value="1">User Study</option>
+                                      <option value="2">Research Assistant</option>
+                                  </select>
+                              </div>
 
                           <label htmlFor="major">Major</label>
                           <div className="form-group">
-                            <select cclass="custom-select" size="15" id="major">
+                            <select className="custom-select" size="15" multiple id="major" name="major" onChange={this.onMultiSelectChange}>
                                 <option value="0">Aerospace Engineering</option>
                                 <option value="1">Agricultural and Biological engineering</option>
                                 <option value="2">Bioengineering</option>
@@ -107,25 +167,19 @@ class PostResearch extends Component {
                             </select>
                         </div>
 
-                        <label htmlFor="salary">Salary</label>
                         <div className="form-group">
-                              <div class="custom-control custom-radio custom-control-inline">
-                                  <input type="radio" id="salary0" name="salary0" class="custom-control-input"/>
-                                  <label class="custom-control-label" htmlFor="salary0">$0~10/hr</label>
-                              </div>
-                              <div class="custom-control custom-radio custom-control-inline">
-                                  <input type="radio" id="salary1" name="salary1" class="custom-control-input"/>
-                                  <label class="custom-control-label" htmlFor="salary1">$11~15/hr</label>
-                              </div>
-                              <div class="custom-control custom-radio custom-control-inline">
-                                  <input type="radio" id="salary2" name="salary2" class="custom-control-input"/>
-                                  <label class="custom-control-label" htmlFor="salary2">$15+/hr</label>
-                              </div>
+                            <label htmlFor="salary">Salary</label>
+                            <select className="form-control" id="salary" name="salary" value={salary} onChange={this.onChange}>
+                                <option value="0">$0~10/hr</option>
+                                <option value="1">$11~15/hr</option>
+                                <option value="2">$15+/hr</option>
+                            </select>
                         </div>
+
 
                             <label htmlFor="standing">Standing</label>
                             <div className="form-group">
-                              <select cclass="custom-select" size="4" id="standing">
+                              <select className="custom-select" size="4" multiple id="standing" name="standing" value={standing} onChange={this.onMultiSelectChange}>
                                   <option value="0">Freshman</option>
                                   <option value="1">Sophomore</option>
                                   <option value="2">Junior</option>
@@ -133,35 +187,34 @@ class PostResearch extends Component {
                               </select>
                             </div>
 
-                            <label htmlFor="term">Term</label>
                             <div className="form-group">
-                                <select cclass="custom-select" size="4" id="term">
+                                <label htmlFor="term">Term</label>
+                                <select className="form-control" id="term" name="term" value={term} onChange={this.onChange}>
                                     <option value="0">Spring</option>
                                     <option value="1">Summer</option>
                                     <option value="2">Fall</option>
-                                    <option value="3">Winter</option>
+                                    <option value="2">Winter</option>
                                 </select>
                             </div>
 
 
                           <div className="form-group">
-                            <label htmlFor="name">Contact Name</label>
-                            <input type="text" className="form-control" id="name"/>
+                            <label htmlFor="contactName">Contact Name</label>
+                            <input type="text" className="form-control" id="contactName" name="contactName" value={contactName} onChange={this.onChange}/>
                           </div>
 
                           <div className="form-group">
-                            <label htmlFor="email">Contact Email</label>
-                            <input type="text" className="form-control" id="email"/>
+                            <label htmlFor="contactEmail">Contact Email</label>
+                            <input type="text" className="form-control" id="contactEmail" name="contactEmail" value={contactEmail} onChange={this.onChange}/>
+                          </div>
+
+                          <div className="row align-items-center">
+                                <div className="col-12">
+                                  <input type="submit" value="Save Job" className="btn btn-block btn-primary btn-md"/>
+                                </div>
                           </div>
                         </form>
                       </div>
-
-
-                    </div>
-                    <div className="row align-items-center">
-                          <div className="col-6">
-                            <a href="#" className="btn btn-block btn-primary btn-md">Save Job</a>
-                          </div>
                     </div>
                   </div>
                 </section>

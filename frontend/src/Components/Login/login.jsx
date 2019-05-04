@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import swal from 'sweetalert';
 import Footer from '../Segments/Footer.jsx';
+import serverUrl from '../../config.js'
 
 
-//TODO: Need to pass the state as login when redirect to home page, display different type of homepage
 class Login extends Component {
     constructor(){
         super();
         this.state = {
             email : "",
-            password : ""
+            password : "",
+            error: false
         };
         this.onChange = this.onChange.bind(this);
     }
@@ -24,11 +25,24 @@ class Login extends Component {
         e.preventDefault();
 
         const { email, password} = this.state;
-        const signApi = 'http://localhost:4000/api/user/signIn';
+        const signApi = `http://${serverUrl}:4000/api/user/signIn`;
         axios.post(signApi, {email, password})
             .then((res) => {
                 if(res.status === 200){
-                    this.props.history.push("/");
+                    swal({
+                        icon: "success",
+                        title: "Welcome Back!"
+                    });
+                    this.props.history.push({
+                        pathname: '/',
+                        state: {loggedIn: true,
+                                userId:res.data.data._id,
+                                isStudent:res.data.data.isStudent}
+                    });
+                }
+            }).catch((err) => {
+                if(err.request){
+                    this.setState({error:true});
                 }
             });
     }
@@ -36,16 +50,20 @@ class Login extends Component {
 
   render() {
       const {email, password} = this.state;
+
+      let errorMessage;
+      if(this.state.error){
+          errorMessage =
+          <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                Failed to log in, please try again.
+                  <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+          </div>;
+
+      }
     return (
             <div className="site-wrap">
-                <div className="site-mobile-menu site-navbar-target">
-                    <div className="site-mobile-menu-header">
-                        <div className="site-mobile-menu-close mt-3">
-                            <span className="icon-close2 js-menu-toggle"></span>
-                        </div>
-                    </div>
-                    <div className="site-mobile-menu-body"></div>
-                </div>
 
                 {/* NAVBAR */}
                 <header className="site-navbar mt-3">
@@ -82,6 +100,7 @@ class Login extends Component {
                         <h2 className="mb-4">Log In To ResearchBoard</h2>
                         <form onSubmit={this.onSubmit} className="p-4 border rounded">
 
+                            {errorMessage}
                           <div className="row form-group justify-content-center">
                             <div className="col-md-6 mb-3 mb-md-0">
                               <label className="text-black" htmlFor="email">Email</label>

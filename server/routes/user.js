@@ -88,6 +88,24 @@ router.post('/signIn', function (req, res) {
     )
 });
 
+// Get user information by id
+// Get api/user/:id
+router.get("/:id", function (req, res) {
+    users.findById(req.params.id, (err, res_user) => {
+        if(err || !res_user) {
+            res.status(404).send({
+                message: 'Failed to find user',
+                data: []
+            });
+        } else {
+            res.status(200).send({
+                message: 'OK',
+                data: res_user
+            });
+        }
+    });
+});
+
 // respond with posts that created by User Id if a professor
 // or respond with posts that favorited by User Id if a undergrad
 // Get api/user/postList/:id
@@ -100,11 +118,16 @@ router.get("/postList/:id", function (req, res) {
                 data: []
             });
         } else {
-            posts.find({ _id: { $in: res_user.postsIds }}, (err, res_posts)=>{
+            var query = posts.find({_id: { $in: res_user.postsIds }});
+            let select = req.query.select;
+            if(select){
+                query = query.select(JSON.parse(select));
+            }
+            query.exec((err, res_posts)=>{
                 if (err) {
                     res.status(404).send({
                         message: 'Error on finding the posts',
-                        data: []
+                        data: err
                     });
                 }else{
                     res.status(200).send({
@@ -112,8 +135,7 @@ router.get("/postList/:id", function (req, res) {
                         data: res_posts
                     });
                 }
-
-            } )
+            });
 
         }
     });
