@@ -112,8 +112,7 @@ class About extends Component {
                       <div className="col-md-6">
                         <h3>Yuyang Liu</h3>
                         <p className="text-muted">Full Stack Developer</p>
-                        <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
-                      </div>
+                        <p>Passionate web developer. <br/>Worked on backend implementations using Express and mongoDB. <br/>Worked on data collection.</p></div>
                   </div>
 
                 <div className="row mb-5">
