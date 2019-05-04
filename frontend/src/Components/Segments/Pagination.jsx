@@ -76,7 +76,7 @@ class Pagination extends Component{
   }
 
   pageRender(item1, item2){
-    if(item1 == item2)
+    if(item1 === item2)
       return item1
     else{
       var toret = ""

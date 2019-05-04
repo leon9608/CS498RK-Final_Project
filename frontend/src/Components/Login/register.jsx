@@ -38,7 +38,7 @@ class Register extends Component {
         const createApi = `http://${serverUrl}:4000/api/user/create`;
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-        if (password == '' || name == '' || email == '' || confirmedPassowrd == '') {
+        if (password === '' || name === '' || email === '' || confirmedPassowrd === '') {
             this.setState({
                 emptySpace: true,
                 error: false,
@@ -129,14 +129,6 @@ class Register extends Component {
         const {name, email, password, confirmedPassowrd} = this.state;
         return (
             <div className="site-wrap">
-                <div className="site-mobile-menu site-navbar-target">
-                    <div className="site-mobile-menu-header">
-                        <div className="site-mobile-menu-close mt-3">
-                            <span className="icon-close2 js-menu-toggle"></span>
-                        </div>
-                    </div>
-                    <div className="site-mobile-menu-body"></div>
-                </div>
 
                 {/* NAVBAR */}
                 <header className="site-navbar mt-3">
@@ -176,7 +168,7 @@ class Register extends Component {
                                 <form onSubmit={this.onSubmit} className="p-4 border rounded">
                                     {errorMessage}
                                     <div className="row form-group justify-content-center">
-                                        <div className="col-md-6 mb-3 mb-md-0">
+                                        <div className="col-md-8 mb-3 mb-md-0">
                                             <label className="text-black" htmlFor="fname">Name</label>
                                             <input type="text" id="fname" className="form-control" name="name"
                                                    value={name} onChange={this.onChange} placeholder="Your Name"/>
@@ -184,7 +176,7 @@ class Register extends Component {
                                     </div>
 
                                     <div className="row form-group justify-content-center">
-                                        <div className="col-md-6 mb-3 mb-md-0">
+                                        <div className="col-md-8 mb-3 mb-md-0">
                                             <label className="text-black" htmlFor="email">Email</label>
                                             <input type="text" id="email" className="form-control" name="email"
                                                    value={email} onChange={this.onChange} placeholder="Your Email"/>
@@ -192,7 +184,7 @@ class Register extends Component {
                                     </div>
 
                                     <div className="row form-group justify-content-center">
-                                        <div className="col-md-6 mb-3 mb-md-0">
+                                        <div className="col-md-8 mb-3 mb-md-0">
                                             <label className="text-black" htmlFor="password">Password</label>
                                             <input type="password" id="password" className="form-control"
                                                    name="password" value={password} onChange={this.onChange}
@@ -201,7 +193,7 @@ class Register extends Component {
                                     </div>
 
                                     <div className="row form-group justify-content-center">
-                                        <div className="col-md-6 mb-3 mb-md-0">
+                                        <div className="col-md-8 mb-3 mb-md-0">
                                             <label className="text-black" htmlFor="confirmedPassowrd">Re-Type
                                                 Password</label>
                                             <input type="password" id="confirmedPassowrd" className="form-control"
@@ -211,13 +203,13 @@ class Register extends Component {
                                     </div>
 
                                     <div className="row form-group justify-content-center">
-                                        <div className="col-md-6 mb-3 mb-md-0">
+                                        <div className="col-md-8 mb-3 mb-md-0">
                                             <div className="form-check form-check-inline">
                                                 <label className="text-black" htmlFor="type">Account Type</label>
                                             </div>
                                             <div className="form-check form-check-inline">
                                                 <input className="form-check-input" type="radio" name="typeRadios"
-                                                       id="undergrad" checked/>
+                                                       id="undergrad" defaultChecked/>
                                                 <label className="form-check-label" htmlFor="undergrad">Undergrad
                                                     Student</label>
                                             </div>

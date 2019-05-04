@@ -115,7 +115,7 @@ class ResearchDetail extends Component {
       }
 
       if(i !== data.length - 1){
-        toret = toret + " or "
+        toret = toret + " / "
       }
     }
     return toret
@@ -137,7 +137,7 @@ class ResearchDetail extends Component {
       }else toret = toret + "Senior"
 
       if(i !== data.length - 1){
-        toret = toret + " or "
+        toret = toret + " / "
       }
     }
     return toret
@@ -164,7 +164,7 @@ class ResearchDetail extends Component {
 
   }
 
-  //TODO: for the delete button
+  //for the delete button
   deletePost = () => {
       const deleteUrl = `http://${serverUrl}:4000/api/posts/delete/`+this.state.retval._id;
       axios.delete(deleteUrl).then(
@@ -222,14 +222,6 @@ class ResearchDetail extends Component {
         return (
 
             <div className="site-wrap">
-                    <div className="site-mobile-menu site-navbar-target">
-                        <div className="site-mobile-menu-header">
-                            <div className="site-mobile-menu-close mt-3">
-                                <span className="icon-close2 js-menu-toggle"></span>
-                            </div>
-                        </div>
-                        <div className="site-mobile-menu-body"></div>
-                    </div>
 
                     <NavBar loggedIn={loggedIn} isStudent={isStudent} userId={userId} curPage={-1}/>
 

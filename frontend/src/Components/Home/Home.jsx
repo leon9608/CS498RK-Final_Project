@@ -172,7 +172,7 @@ class Home extends Component {
                             </div>
                             <div className="row mb-5">
                               <div className="col-sm-3">
-                                <select className="custom-select" defaultValue="-1" id="type" name="type" onChange={this.onChange}>
+                                <select className="form-control" defaultValue="-1" id="type" name="type" onChange={this.onChange}>
                                     <option value="-1">Type</option>
                                     <option value="0">Grader/Class Assistant</option>
                                     <option value="1">User Study</option>

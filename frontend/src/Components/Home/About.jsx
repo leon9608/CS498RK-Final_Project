@@ -31,14 +31,6 @@ class About extends Component {
 
       return (
           <div className="site-wrap">
-              <div className="site-mobile-menu site-navbar-target">
-                <div className="site-mobile-menu-header">
-                  <div className="site-mobile-menu-close mt-3">
-                    <span className="icon-close2 js-menu-toggle"></span>
-                  </div>
-                </div>
-                <div className="site-mobile-menu-body"></div>
-              </div>
 
               <NavBar loggedIn={loggedIn} isStudent={isStudent} userId={userId} curPage={1}/>
 
@@ -114,7 +106,7 @@ class About extends Component {
                       <div className="col-md-6">
                         <h3>Jiaxuan Guo</h3>
                         <p className="text-muted">Full Stack Developer</p>
-                        <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
+                        <p>Overall developer incharge. Impplemented major website design and functionalities.</p>
                       </div>
 
                       <div className="col-md-6">
@@ -134,7 +126,7 @@ class About extends Component {
                   <div className="col-md-6">
                     <h3>Yan Ye</h3>
                     <p className="text-muted">Front-End Developer</p>
-                    <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
+                    <p></p>
                   </div>
               </div>
 
