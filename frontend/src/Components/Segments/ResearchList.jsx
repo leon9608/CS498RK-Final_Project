@@ -22,7 +22,7 @@ class ResearchList extends Component{
     onChangePage(pageOfItems) {
 
         this.setState({ pageOfItems: pageOfItems });
-        
+
     }
 
 
@@ -70,7 +70,7 @@ class ResearchList extends Component{
                           <strong>{this.trimDescrp(post.description)}</strong>
                         </div>
                         <div className="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                            <span className="icon-contact_mail"></span>{post.contactName}
+                            <span className="m-2"><span className="icon-contact_mail"></span><span>{'   ' + post.contactName}</span></span>
                         </div>
                         <div className="job-listing-meta">
                             <span className="icon-date_range"></span>{new Date(post.dateCreated).toDateString()}
