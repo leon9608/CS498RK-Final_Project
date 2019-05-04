@@ -106,7 +106,7 @@ class About extends Component {
                       <div className="col-md-6">
                         <h3>Jiaxuan Guo</h3>
                         <p className="text-muted">Full Stack Developer</p>
-                        <p>Overall developer incharge. Impplemented major website design and functionalities.</p>
+                        <p>Overall developer incharge. <br/>Impplemented major website design and functionalities.</p>
                       </div>
 
                       <div className="col-md-6">
@@ -120,7 +120,7 @@ class About extends Component {
                   <div className="col-md-6">
                     <h3>Jinyuan Li</h3>
                     <p className="text-muted">Front-End Developer</p>
-                    <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
+                    <p>Implement user-friendly and responsive user interface. </p>
                   </div>
 
                   <div className="col-md-6">
@@ -134,7 +134,7 @@ class About extends Component {
                 <div className="col-md-6">
                   <h3>Zhilin Zhang</h3>
                   <p className="text-muted">Front-End Developer</p>
-                  <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
+                  <p>Front end debugging, data collection and testing.</p>
                 </div>
             </div>
 
